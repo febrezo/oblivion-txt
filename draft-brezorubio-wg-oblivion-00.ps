@@ -1,0 +1,1610 @@
+%!PS-Adobe-3.0
+%%BoundingBox: 38 24 574 768
+%%Title: Enscript Output
+%%For: Félix Brezo
+%%Creator: GNU Enscript 1.6.6
+%%CreationDate: Mon Dec  3 18:39:45 2018
+%%Orientation: Portrait
+%%Pages: (atend)
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: (atend)
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset Enscript-Prolog 1.6 6
+%
+% Procedures.
+%
+
+/_S {	% save current state
+  /_s save def
+} def
+/_R {	% restore from saved state
+  _s restore
+} def
+
+/S {	% showpage protecting gstate
+  gsave
+  showpage
+  grestore
+} bind def
+
+/MF {	% fontname newfontname -> -	make a new encoded font
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  % insert only valid encoding vectors
+  encoding_vector length 256 eq {
+    newfont /Encoding encoding_vector put
+  } if
+
+  newfontname newfont definefont pop
+} def
+
+/MF_PS { % fontname newfontname -> -	make a new font preserving its enc
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  newfontname newfont definefont pop
+} def
+
+/SF { % fontname width height -> -	set a new font
+  /height exch def
+  /width exch def
+
+  findfont
+  [width 0 0 height 0 0] makefont setfont
+} def
+
+/SUF { % fontname width height -> -	set a new user font
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF
+  /F-gs-user-font width height SF
+} def
+
+/SUF_PS { % fontname width height -> -	set a new user font preserving its enc
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF_PS
+  /F-gs-user-font width height SF
+} def
+
+/M {moveto} bind def
+/s {show} bind def
+
+/Box {	% x y w h -> -			define box path
+  /d_h exch def /d_w exch def /d_y exch def /d_x exch def
+  d_x d_y  moveto
+  d_w 0 rlineto
+  0 d_h rlineto
+  d_w neg 0 rlineto
+  closepath
+} def
+
+/bgs {	% x y height blskip gray str -> -	show string with bg color
+  /str exch def
+  /gray exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    gray setgray
+    fill
+  grestore
+  x y M str s
+} def
+
+/bgcs { % x y height blskip red green blue str -> -  show string with bg color
+  /str exch def
+  /blue exch def
+  /green exch def
+  /red exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    red green blue setrgbcolor
+    fill
+  grestore
+  x y M str s
+} def
+
+% Highlight bars.
+/highlight_bars {	% nlines lineheight output_y_margin gray -> -
+  gsave
+    setgray
+    /ymarg exch def
+    /lineheight exch def
+    /nlines exch def
+
+    % This 2 is just a magic number to sync highlight lines to text.
+    0 d_header_y ymarg sub 2 sub translate
+
+    /cw d_output_w cols div def
+    /nrows d_output_h ymarg 2 mul sub lineheight div cvi def
+
+    % for each column
+    0 1 cols 1 sub {
+      cw mul /xp exch def
+
+      % for each rows
+      0 1 nrows 1 sub {
+        /rn exch def
+        rn lineheight mul neg /yp exch def
+        rn nlines idiv 2 mod 0 eq {
+	  % Draw highlight bar.  4 is just a magic indentation.
+	  xp 4 add yp cw 8 sub lineheight neg Box fill
+	} if
+      } for
+    } for
+
+  grestore
+} def
+
+% Line highlight bar.
+/line_highlight {	% x y width height gray -> -
+  gsave
+    /gray exch def
+    Box gray setgray fill
+  grestore
+} def
+
+% Column separator lines.
+/column_lines {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h translate
+    /cw d_output_w cols div def
+    1 1 cols 1 sub {
+      cw mul 0 moveto
+      0 d_output_h rlineto stroke
+    } for
+  grestore
+} def
+
+% Column borders.
+/column_borders {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h moveto
+    0 d_output_h rlineto
+    d_output_w 0 rlineto
+    0 d_output_h neg rlineto
+    closepath stroke
+  grestore
+} def
+
+% Do the actual underlay drawing
+/draw_underlay {
+  ul_style 0 eq {
+    ul_str true charpath stroke
+  } {
+    ul_str show
+  } ifelse
+} def
+
+% Underlay
+/underlay {	% - -> -
+  gsave
+    0 d_page_h translate
+    d_page_h neg d_page_w atan rotate
+
+    ul_gray setgray
+    ul_font setfont
+    /dw d_page_h dup mul d_page_w dup mul add sqrt def
+    ul_str stringwidth pop dw exch sub 2 div ul_h_ptsize -2 div moveto
+    draw_underlay
+  grestore
+} def
+
+/user_underlay {	% - -> -
+  gsave
+    ul_x ul_y translate
+    ul_angle rotate
+    ul_gray setgray
+    ul_font setfont
+    0 0 ul_h_ptsize 2 div sub moveto
+    draw_underlay
+  grestore
+} def
+
+% Page prefeed
+/page_prefeed {		% bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} def
+
+% Wrapped line markers
+/wrapped_line_mark {	% x y charwith charheight type -> -
+  /type exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  type 2 eq {
+    % Black boxes (like TeX does)
+    gsave
+      0 setlinewidth
+      x w 4 div add y M
+      0 h rlineto w 2 div 0 rlineto 0 h neg rlineto
+      closepath fill
+    grestore
+  } {
+    type 3 eq {
+      % Small arrows
+      gsave
+        .2 setlinewidth
+        x w 2 div add y h 2 div add M
+        w 4 div 0 rlineto
+        x w 4 div add y lineto stroke
+
+        x w 4 div add w 8 div add y h 4 div add M
+        x w 4 div add y lineto
+	w 4 div h 8 div rlineto stroke
+      grestore
+    } {
+      % do nothing
+    } ifelse
+  } ifelse
+} def
+
+% EPSF import.
+
+/BeginEPSF {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack
+  userdict begin
+  /showpage { } def
+  0 setgray 0 setlinecap
+  1 setlinewidth 0 setlinejoin
+  10 setmiterlimit [ ] 0 setdash newpath
+  /languagelevel where {
+    pop languagelevel
+    1 ne {
+      false setstrokeadjust false setoverprint
+    } if
+  } if
+} bind def
+
+/EndEPSF {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+%%EndResource
+%%BeginResource: procset Enscript-Encoding-88591 1.6 6
+/encoding_vector [
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclam       	/quotedbl     	/numbersign   	
+/dollar       	/percent      	/ampersand    	/quoteright   	
+/parenleft    	/parenright   	/asterisk     	/plus         	
+/comma        	/hyphen       	/period       	/slash        	
+/zero         	/one          	/two          	/three        	
+/four         	/five         	/six          	/seven        	
+/eight        	/nine         	/colon        	/semicolon    	
+/less         	/equal        	/greater      	/question     	
+/at           	/A            	/B            	/C            	
+/D            	/E            	/F            	/G            	
+/H            	/I            	/J            	/K            	
+/L            	/M            	/N            	/O            	
+/P            	/Q            	/R            	/S            	
+/T            	/U            	/V            	/W            	
+/X            	/Y            	/Z            	/bracketleft  	
+/backslash    	/bracketright 	/asciicircum  	/underscore   	
+/quoteleft    	/a            	/b            	/c            	
+/d            	/e            	/f            	/g            	
+/h            	/i            	/j            	/k            	
+/l            	/m            	/n            	/o            	
+/p            	/q            	/r            	/s            	
+/t            	/u            	/v            	/w            	
+/x            	/y            	/z            	/braceleft    	
+/bar          	/braceright   	/tilde        	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclamdown   	/cent         	/sterling     	
+/currency     	/yen          	/brokenbar    	/section      	
+/dieresis     	/copyright    	/ordfeminine  	/guillemotleft	
+/logicalnot   	/hyphen       	/registered   	/macron       	
+/degree       	/plusminus    	/twosuperior  	/threesuperior	
+/acute        	/mu           	/paragraph    	/bullet       	
+/cedilla      	/onesuperior  	/ordmasculine 	/guillemotright	
+/onequarter   	/onehalf      	/threequarters	/questiondown 	
+/Agrave       	/Aacute       	/Acircumflex  	/Atilde       	
+/Adieresis    	/Aring        	/AE           	/Ccedilla     	
+/Egrave       	/Eacute       	/Ecircumflex  	/Edieresis    	
+/Igrave       	/Iacute       	/Icircumflex  	/Idieresis    	
+/Eth          	/Ntilde       	/Ograve       	/Oacute       	
+/Ocircumflex  	/Otilde       	/Odieresis    	/multiply     	
+/Oslash       	/Ugrave       	/Uacute       	/Ucircumflex  	
+/Udieresis    	/Yacute       	/Thorn        	/germandbls   	
+/agrave       	/aacute       	/acircumflex  	/atilde       	
+/adieresis    	/aring        	/ae           	/ccedilla     	
+/egrave       	/eacute       	/ecircumflex  	/edieresis    	
+/igrave       	/iacute       	/icircumflex  	/idieresis    	
+/eth          	/ntilde       	/ograve       	/oacute       	
+/ocircumflex  	/otilde       	/odieresis    	/divide       	
+/oslash       	/ugrave       	/uacute       	/ucircumflex  	
+/udieresis    	/yacute       	/thorn        	/ydieresis    	
+] def
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Courier
+/HFpt_w 10 def
+/HFpt_h 10 def
+/Courier-Bold /HF-gs-font MF
+/HF /HF-gs-font findfont [HFpt_w 0 0 HFpt_h 0 0] makefont def
+/Courier /F-gs-font MF
+/F-gs-font 10 10 SF
+/#copies 1 def
+% Pagedevice definitions:
+gs_languagelevel 1 gt {
+  <<
+    /PageSize [612 792] 
+  >> setpagedevice
+} if
+%%BeginResource: procset Enscript-Header-simple 1.6 6
+
+/do_header {	% print default simple header
+  gsave
+    d_header_x d_header_y HFpt_h 3 div add translate
+
+    HF setfont
+    user_header_p {
+      5 0 moveto user_header_left_str show
+
+      d_header_w user_header_center_str stringwidth pop sub 2 div
+      0 moveto user_header_center_str show
+
+      d_header_w user_header_right_str stringwidth pop sub 5 sub
+      0 moveto user_header_right_str show
+    } {
+      fname length fmodstr length add pagenumstr length add 95 6 idiv add d_header_w 6 idiv le{
+        5 0 moveto fname show
+        45 0 rmoveto fmodstr show
+        45 0 rmoveto pagenumstr show
+      } {
+        5 0 moveto fmodstr show
+        45 0 rmoveto pagenumstr show
+        fname length d_header_w 6 idiv idiv 1 add 10 mul 5 exch moveto
+        1 1 fname length d_header_w 6 idiv idiv
+        {
+          dup fname exch 1 sub d_header_w 6 idiv mul d_header_w 6 idiv getinterval show
+          5 exch 10 mul fname length d_header_w 6 idiv idiv 1 add 10 mul exch sub moveto
+        } for
+        5 10 moveto
+        fname fname length d_header_w 6 idiv idiv d_header_w 6 idiv mul dup fname length exch sub getinterval show
+      }ifelse
+    }ifelse
+
+  grestore
+} def
+%%EndResource
+/d_page_w 536 def
+/d_page_h 744 def
+/d_header_x 0 def
+/d_header_y 700 def
+/d_header_w 536 def
+/d_header_h 44 def
+/d_footer_x 0 def
+/d_footer_y 0 def
+/d_footer_w 536 def
+/d_footer_h 0 def
+/d_output_w 536 def
+/d_output_h 700 def
+/cols 1 def
+%%EndSetup
+%%Page: (1) 1
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 1 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (1) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 643 M
+(Network Working Group                                           F. Brezo) s
+5 632 M
+(Internet-Draft                                                  Y. Rubio) s
+5 621 M
+(Intended status: Informational                                Telefonica) s
+5 610 M
+(Expires: June 6, 2019                                  December 03, 2018) s
+5 577 M
+(            A Method for Deactivation and Deletion Policies) s
+5 566 M
+(                    draft-brezorubio-wg-oblivion-00) s
+5 544 M
+(Abstract) s
+5 522 M
+(   The current method for opting out from a service are far from being) s
+5 511 M
+(   standard.  This fact makes the process of deactivating or deleting an) s
+5 500 M
+(   account from a website difficult to find since each platform provides) s
+5 489 M
+(   the link in a different way.  This document defines a standard) s
+5 478 M
+(   \("oblivion.txt"\) to help organizations to describe the steps to) s
+5 467 M
+(   follow by a user for deactivating or deleting an account from their) s
+5 456 M
+(   websites in a secure and standard way.) s
+5 434 M
+(Status of This Memo) s
+5 412 M
+(   This Internet-Draft is submitted in full conformance with the) s
+5 401 M
+(   provisions of BCP 78 and BCP 79.) s
+5 379 M
+(   Internet-Drafts are working documents of the Internet Engineering) s
+5 368 M
+(   Task Force \(IETF\).  Note that other groups may also distribute) s
+5 357 M
+(   working documents as Internet-Drafts.  The list of current Internet-) s
+5 346 M
+(   Drafts is at https://datatracker.ietf.org/drafts/current/.) s
+5 324 M
+(   Internet-Drafts are draft documents valid for a maximum of six months) s
+5 313 M
+(   and may be updated, replaced, or obsoleted by other documents at any) s
+5 302 M
+(   time.  It is inappropriate to use Internet-Drafts as reference) s
+5 291 M
+(   material or to cite them other than as "work in progress.") s
+5 269 M
+(   This Internet-Draft will expire on June 6, 2019.) s
+5 247 M
+(Copyright Notice) s
+5 225 M
+(   Copyright \(c\) 2018 IETF Trust and the persons identified as the) s
+5 214 M
+(   document authors.  All rights reserved.) s
+5 192 M
+(   This document is subject to BCP 78 and the IETF Trust's Legal) s
+5 181 M
+(   Provisions Relating to IETF Documents) s
+5 170 M
+(   \(https://trustee.ietf.org/license-info\) in effect on the date of) s
+5 159 M
+(   publication of this document.  Please review these documents) s
+5 148 M
+(   carefully, as they describe your rights and restrictions with respect) s
+5 137 M
+(   to this document.  Code Components extracted from this document must) s
+5 126 M
+(   include Simplified BSD License text as described in Section 4.e of) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                  [Page 1]) s
+_R
+S
+%%Page: (2) 2
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 2 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (2) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(   the Trust Legal Provisions and are provided without warranty as) s
+5 632 M
+(   described in the Simplified BSD License.) s
+5 610 M
+(1.  Introduction) s
+5 588 M
+(1.1.  Motivation and Previous Work) s
+5 566 M
+(   Many of the standard interaction of end users with online services) s
+5 555 M
+(   involve creating and managing personal accounts.  Even when the) s
+5 544 M
+(   creation of these accounts may seem easy to control, generally, the) s
+5 533 M
+(   deletion and deactivation of an account does not fulfill with any) s
+5 522 M
+(   type of standards making each experience of look differently.) s
+5 500 M
+(   Regarding this issue, there has been efforts to list the procedures) s
+5 489 M
+(   followed by different platforms to conduct this task.  For example,) s
+5 478 M
+(   the project JustDelete.me shows a list of direct links to deletion) s
+5 467 M
+(   URLs on different platforms.  However, this process is mainly curated) s
+5 456 M
+(   by contributors, which is an approach that does not scale well.) s
+5 434 M
+(   In this document, we define a machine-readable and extensible way of) s
+5 423 M
+(   communicating how users can interact with a service to deactivate) s
+5 412 M
+(   their accounts or fully deleting them.  This standard is thought to) s
+5 401 M
+(   assist companies on providing a transparent and reachable way of) s
+5 390 M
+(   giving access to their opt-out procedures so as to give back to the) s
+5 379 M
+(   users the right to keep control of their own digital footprint.) s
+5 357 M
+(1.2.  Terminology) s
+5 335 M
+(   In this document, the key words "MUST", "MUST NOT", "REQUIRED",) s
+5 324 M
+(   "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY",) s
+5 313 M
+(   and "OPTIONAL" are to be interpreted as described in BCP 14, RFC 2119) s
+5 302 M
+(   [RFC2119].) s
+5 280 M
+(2.  The Specification) s
+5 258 M
+(   This standard defines a text file to be placed in a known location) s
+5 247 M
+(   that provides information for users and applications to assist them) s
+5 236 M
+(   in the process of finding the tools to delete or remove accounts and) s
+5 225 M
+(   services.) s
+5 203 M
+(   The file is named "oblivion.txt", and this file SHOULD be placed) s
+5 192 M
+(   under the Well-Known path \("/.well-known/oblivion.txt"\) [RFC5785] of) s
+5 181 M
+(   a domain name or IP address for web properties.  If it is not) s
+5 170 M
+(   possible to place the "oblivion.txt" file in the Well-Known path or) s
+5 159 M
+(   setup a redirect, web-based services MAY place the file in the top-) s
+5 148 M
+(   level path of a given web domain or IP address \("/oblivion.txt"\) as a) s
+5 137 M
+(   fall back option.  For web-based services, the instructions MUST be) s
+5 126 M
+(   accessible via the Hypertext Transfer Protocol [RFC1945] as a) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                  [Page 2]) s
+_R
+S
+%%Page: (3) 3
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 3 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (3) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(   resource of Internet Media Type "text/plain" with the default charset) s
+5 632 M
+(   parameter set to "utf-8" per section 4.1.3 of [RFC2046].  For file) s
+5 621 M
+(   systems and version control repositories an ".oblivion.txt" file) s
+5 610 M
+(   SHOULD be placed in the root directory of a particular file system or) s
+5 599 M
+(   source code project.) s
+5 577 M
+(   This text file contains multiple directives with different values.) s
+5 566 M
+(   The "directive" is the first part of a field all the way up to the) s
+5 555 M
+(   colon \("Contact:"\).  Directives MUST be case-insensitive.  The) s
+5 544 M
+(   "value" comes after the directive \("https://example.com/oblivion"\).) s
+5 533 M
+(   A "field" MUST alway consist of a directive and a value \("Contact:) s
+5 522 M
+(   https://example.com/oblivion"\).  An "oblivion.txt" file can have an) s
+5 511 M
+(   unlimited number of fields.  It is important to note that you MUST) s
+5 500 M
+(   have a separate line for every field.  One MUST NOT chain multiple) s
+5 489 M
+(   values for a single directive and everything MUST be in a separate) s
+5 478 M
+(   field.  Unless otherwise indicated in a definition of a particular) s
+5 467 M
+(   field, any directive MAY appear multiple times.) s
+5 445 M
+(2.1.  Scope) s
+5 423 M
+(   An "oblivion.txt" file MUST apply to the domain in the URI used to) s
+5 412 M
+(   retrieve it and to any of its subdomains or parent domains.  However,) s
+5 401 M
+(   an "oblivion.txt" file that is found in a file system or version) s
+5 390 M
+(   control repository MUST only apply to the folder or repository in) s
+5 379 M
+(   which it is located, and not to any of its parent or sibling folders,) s
+5 368 M
+(   or repositories.) s
+5 346 M
+(   Some examples appear below:) s
+5 324 M
+(   # The following only applies to example.com and subdomain.example.com) s
+5 302 M
+(   https://example.com/.well-known/oblivion.txt) s
+5 280 M
+(   # This only applies to subdomain.example.com but not to example.com) s
+5 258 M
+(   https://subdomain.example.com/.well-known/oblivion.txt) s
+5 236 M
+(   # This oblivion.txt file applies to IPv4 address of 192.0.2.0.) s
+5 214 M
+(   http://192.0.2.0/.well-known/oblivion.txt) s
+5 192 M
+(   # This oblivion.txt file applies to IPv6 address of 2001:db8:8:4::2.) s
+5 170 M
+(   http://[2001:db8:8:4::2]/.well-known/oblivion.txt) s
+5 148 M
+(   # This oblivion.txt file applies to the /example/folder1 directory.) s
+5 126 M
+(   /example/folder1/oblivion.txt) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                  [Page 3]) s
+_R
+S
+%%Page: (4) 4
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 4 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (4) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(2.2.  Comments) s
+5 621 M
+(   Any line beginning with the "#" \(%x30\) symbol MUST be interpreted as) s
+5 610 M
+(   a comment.) s
+5 588 M
+(   Example:) s
+5 566 M
+(   # This is a comment.) s
+5 544 M
+(   You MAY use one or more comments as descriptive text immediately) s
+5 533 M
+(   before the field.  Parsers SHOULD associate the comments with the) s
+5 522 M
+(   respective field.) s
+5 500 M
+(2.3.  Separate Fields) s
+5 478 M
+(   A separate line is REQUIRED for every new value and field.  You MUST) s
+5 467 M
+(   NOT chain everything into a single field.  Every line MUST end either) s
+5 456 M
+(   with a carriage return and line feed characters \(CRLF / %x0D %x0A\) or) s
+5 445 M
+(   just a line feed character \(LF / %x0A\).) s
+5 423 M
+(2.4.  Field Definitions) s
+5 401 M
+(2.4.1.  Contact) s
+5 379 M
+(   This directive allows you to provide an address where users CAN ask) s
+5 368 M
+(   for additional information to delete their accounts.  The value MAY) s
+5 357 M
+(   be an email address, a phone number and/or a contact page with more) s
+5 346 M
+(   information.  The "Contact:" directive MUST always be present in an) s
+5 335 M
+(   "oblivion.txt" file.  If this directive indicates a web URL, then it) s
+5 324 M
+(   MUST be begin with "https://".  Contact email addresses SHOULD use) s
+5 313 M
+(   the conventions defined in section 4 of [RFC2142], but there is no) s
+5 302 M
+(   requirement for this directive to be an email address.) s
+5 280 M
+(   The value MUST follow the general syntax described in [RFC3986].) s
+5 269 M
+(   This means that "mailto" and "tel" URI schemes MUST be used when) s
+5 258 M
+(   specifying email addresses and telephone numbers.) s
+5 236 M
+(   The precedence SHOULD be in listed order.  The first field is the) s
+5 225 M
+(   preferred method of contact.  In the example below, the e-mail) s
+5 214 M
+(   address is the preferred method of contact.) s
+5 192 M
+(   Contact: mailto:oblivion@example.com) s
+5 170 M
+(   Contact: tel:+1-201-555-0123) s
+5 148 M
+(   Contact: https://example.com/oblivion-contact.html) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                  [Page 4]) s
+_R
+S
+%%Page: (5) 5
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 5 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (5) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(2.4.2.  Deactivate) s
+5 621 M
+(   The "Deactivate" directive is used for linking to the deactivation) s
+5 610 M
+(   procedure.  If this directive indicates a web URL, then it SHOULD) s
+5 599 M
+(   begin with "https://".) s
+5 577 M
+(   Hiring: https://example.com/deactivate-account.html) s
+5 555 M
+(2.4.3.  Delete) s
+5 533 M
+(   The "Delete" directive is used for linking to the deletion procedure.) s
+5 522 M
+(   If this directive indicates a web URL, then it SHOULD begin with) s
+5 511 M
+(   "https://".) s
+5 489 M
+(   Hiring: https://example.com/delete-account.html) s
+5 467 M
+(2.5.  Encryption) s
+5 445 M
+(   This directive allows you to point to an encryption key that any user) s
+5 434 M
+(   or application SHOULD use for encrypted communication.  You MUST NOT) s
+5 423 M
+(   directly add your key to the field.  Instead the value of this field) s
+5 412 M
+(   MUST be a URI pointing to a location where the key can be retrieved) s
+5 401 M
+(   from.  If this directive indicates a web URL, then it SHOULD begin) s
+5 390 M
+(   with "https://".) s
+5 368 M
+(   When it comes to verifying the authenticity of the key, it is always) s
+5 357 M
+(   the user's responsibility to make sure the key being specified is) s
+5 346 M
+(   indeed one they trust.  Users MUST NOT assume that this key is used) s
+5 335 M
+(   to generate the signature file referenced in Section 2.4.6.) s
+5 313 M
+(   Example of a PGP key available from a web server:) s
+5 291 M
+(   Encryption: https://example.com/pgp-key.txt) s
+5 269 M
+(   Example of a PGP key available from an OPENPGPKEY DNS:) s
+5 247 M
+(   Encryption: dns:5d2d37ab76d47d36._pgp.example.com?type=OPENPGPKEY) s
+5 225 M
+(   Example of a PGP key being referenced by its fingerprint:) s
+5 203 M
+(   Encryption: openpgp4fpr:5f2de5521c63a801ab59ccb603d49de44b29100f) s
+5 181 M
+(2.5.1.  Policy) s
+5 159 M
+(   This directive allows you to link to where your privacy policy and/or) s
+5 148 M
+(   terms and conditions policy is located.  This can help end users to) s
+5 137 M
+(   understand what are the conditions to opt-out in the service.  If) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                  [Page 5]) s
+_R
+S
+%%Page: (6) 6
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 6 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (6) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(   this directive indicates a web URL, then it SHOULD begin with) s
+5 632 M
+(   "https://".) s
+5 610 M
+(   Example:) s
+5 588 M
+(   Policy: https://example.com/privacy-policy.html) s
+5 566 M
+(2.5.2.  Signature) s
+5 544 M
+(   This directive allows you to specify a full URI \(as per [RFC3986]\) of) s
+5 533 M
+(   an external signature file that can be used to check the authenticity) s
+5 522 M
+(   of a "oblivion.txt" file.  External signature files SHOULD be named) s
+5 511 M
+(   "oblivion.txt.sig" and SHOULD be placed under the Well-Known path) s
+5 500 M
+(   \("/.well-known/oblivion.txt.sig"\).  If this directive indicates a web) s
+5 489 M
+(   URL, then it MUST be begin with "https://".  This directive MUST NOT) s
+5 478 M
+(   appear more than once.) s
+5 456 M
+(   It is RECOMMENDED to implementors that this directive is always used.) s
+5 434 M
+(   When it comes to verifying the authenticity of the file, it is always) s
+5 423 M
+(   the user's responsibility to make sure the key being specified is) s
+5 412 M
+(   indeed one they trust.) s
+5 390 M
+(   Here is an example of an external signature file.) s
+5 368 M
+(   Signature: https://example.com/.well-known/oblivion.txt.sig) s
+5 346 M
+(2.6.  Example of an "oblivion.txt" File) s
+5 324 M
+(   # Our oblivion address) s
+5 302 M
+(   Contact: mailto:oblivion@example.com) s
+5 280 M
+(   # Our PGP key) s
+5 258 M
+(   Encryption: https://example.com/pgp-key.txt) s
+5 236 M
+(   # Our privacy policy) s
+5 214 M
+(   Policy: https://example.com/privacy-policy.html) s
+5 192 M
+(   # Deactivate from our service) s
+5 170 M
+(   Deactivate: https://example.com/deactivate-account.html) s
+5 148 M
+(   # Delete your account from our service) s
+5 126 M
+(   Delete: https://example.com/delete-account.html) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                  [Page 6]) s
+_R
+S
+%%Page: (7) 7
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 7 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (7) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(   # Verify this oblivion.txt file) s
+5 621 M
+(   Signature: https://example.com/.well-known/oblivion.txt.sig) s
+5 599 M
+(3.  Location of the "oblivion.txt" File) s
+5 566 M
+(   +----------------------------------------------------------------+) s
+5 555 M
+(   |              Default                                           |) s
+5 544 M
+(   |  +-----------------------------+          +-----------------+  |) s
+5 533 M
+(   |  |                             | Redirect |                 |  |) s
+5 522 M
+(   |  |  /.well-known/oblivion.txt  <----------+  /oblivion.txt  |  |) s
+5 511 M
+(   |  |                             |          |                 |  |) s
+5 500 M
+(   |  +-----------------------------+          +-----------------+  |) s
+5 489 M
+(   |                                                                |) s
+5 478 M
+(   +----------------------------------------------------------------+) s
+5 456 M
+(          Figure 1: External Location of the "oblivion.txt" File.) s
+5 423 M
+(   +------------------------+) s
+5 412 M
+(   |                        |) s
+5 401 M
+(   |  +------------------+  |) s
+5 390 M
+(   |  |                  |  |) s
+5 379 M
+(   |  |  /.oblivion.txt  |  |) s
+5 368 M
+(   |  |                  |  |) s
+5 357 M
+(   |  +------------------+  |) s
+5 346 M
+(   |                        |) s
+5 335 M
+(   +------------------------+) s
+5 313 M
+(          Figure 2: Internal Location of the "oblivion.txt" File.) s
+5 291 M
+(3.1.  Web-based services) s
+5 269 M
+(   Web-based services SHOULD place the "oblivion.txt" file under the) s
+5 258 M
+(   Well-Known path \(e. g., "https://example.com/.well-known/) s
+5 247 M
+(   oblivion.txt"\).  An "oblivion.txt" file located under the top-level) s
+5 236 M
+(   path SHOULD either redirect \(as per section 6.4 of [RFC7231]\) to the) s
+5 225 M
+(   "oblivion.txt" file under the Well-Known path or be used as a fall) s
+5 214 M
+(   back.) s
+5 192 M
+(3.2.  Filesystems) s
+5 170 M
+(   File systems SHOULD place the "oblivion.txt" file under the root) s
+5 159 M
+(   directory \(e. g., "/.oblivion.txt", "C:\\.oblivion.txt"\).) s
+5 137 M
+(   user:/$ l) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                  [Page 7]) s
+_R
+S
+%%Page: (8) 8
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 8 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (8) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(   .oblivion.txt) s
+5 621 M
+(   example-directory-1/) s
+5 599 M
+(   example-directory-2/) s
+5 577 M
+(   example-directory-3/) s
+5 555 M
+(   example-file) s
+5 533 M
+(3.3.  Internal hosts) s
+5 511 M
+(   An ".oblivion.txt" file SHOULD be placed in the root directory of an) s
+5 500 M
+(   internal host.) s
+5 478 M
+(3.4.  Extensibility) s
+5 456 M
+(   Like many other formats and protocols, this format may need to be) s
+5 445 M
+(   extended over time to fit the ever-changing landscape of the) s
+5 434 M
+(   Internet.  Therefore, extensibility is provided via an IANA registry) s
+5 423 M
+(   for directives as defined in Section 6.2 of this document.  Any) s
+5 412 M
+(   directives registered via that process MUST be considered optional.) s
+5 401 M
+(   To encourage extensibility and interoperability, implementors MUST) s
+5 390 M
+(   ignore any fields they do not explicitly support.) s
+5 368 M
+(4.  File Format Description and ABNF Grammar) s
+5 346 M
+(   The expected file format of the "oblivion.txt" file is plain text) s
+5 335 M
+(   \(MIME type "text/plain"\) as defined in section 4.1.3 of [RFC2046] and) s
+5 324 M
+(   is encoded using UTF-8 [RFC3629] in Net-Unicode form [RFC5198].) s
+5 302 M
+(   The following is an ABNF definition of the "oblivion.txt" format,) s
+5 291 M
+(   using the conventions defined in [RFC5234] and [RFC5322].) s
+5 269 M
+(   body = *line \(permission-field eol\) \(signature-field eol\) *line) s
+5 247 M
+(   line = *1\(field / comment\) eol) s
+5 225 M
+(   eol = *WSP [CR] LF) s
+5 203 M
+(   field = acknowledgments-field / contact-field / deactivate-field /) s
+5 192 M
+(   delete-field / encryption-field / policy-field / ext-field) s
+5 170 M
+(   fs = ":") s
+5 148 M
+(   comment = "#" *\(WSP / VCHAR / %xA0-E007F\)) s
+5 126 M
+(   contact-field = "Contact" fs SP \(email / uri / phone\)) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                  [Page 8]) s
+_R
+S
+%%Page: (9) 9
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 9 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (9) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(   email = <Email address as per [RFC5322]>) s
+5 621 M
+(   phone = "+" *1\(DIGIT / "-" / "\(" / "\)" / SP\)) s
+5 599 M
+(   uri = <URI as per [RFC3986]>) s
+5 577 M
+(   deactivate-field = "Deactivate" fs SP uri) s
+5 555 M
+(   delete-field = "Delete" fs SP uri) s
+5 533 M
+(   encryption-field = "Encryption" fs SP uri) s
+5 511 M
+(   policy-field = "Policy" fs SP uri) s
+5 489 M
+(   signature-field = "Signature" fs SP uri) s
+5 467 M
+(   ext-field = field-name fs SP unstructured) s
+5 445 M
+(   field-name = <as per section 3.6.8 of [RFC5322]>) s
+5 423 M
+(   unstructured = <as per section 3.2.5 of [RFC5322]>) s
+5 401 M
+(   "ext-field" refers to extension fields, which are discussed in) s
+5 390 M
+(   Section 3.4 of this document) s
+5 368 M
+(5.  Security Considerations) s
+5 346 M
+(   Organizations creating "oblivion.txt" files will need to consider) s
+5 335 M
+(   several security-related issues.  These include exposure to sensitive) s
+5 324 M
+(   information and attacks where limited access to a server could grant) s
+5 313 M
+(   the ability to modify the contents of the "oblivion.txt" file or) s
+5 302 M
+(   affect how it is served.  Organizations SHOULD also monitor their) s
+5 291 M
+(   "oblivion.txt" files regularly to detect tampering.  Organizations) s
+5 280 M
+(   SHOULD also ensure that any resources such as web pages, email) s
+5 269 M
+(   addresses and telephone numbers references by an "oblivion.txt" file) s
+5 258 M
+(   are kept current, are accessible and controlled by the organization,) s
+5 247 M
+(   and are kept secure.) s
+5 225 M
+(   To ensure the authenticity of the "oblivion.txt" file, organizations) s
+5 214 M
+(   SHOULD sign the file and include the signature using the "Signature") s
+5 203 M
+(   directive \(Section 2.4.6\).  As stated in Section 2.4.4 and) s
+5 192 M
+(   Section 2.4.6, both encryption keys and external signature files MUST) s
+5 181 M
+(   be loaded over HTTPS.) s
+5 159 M
+(   Websites SHOULD reserve the "oblivion.txt" namespace to ensure no) s
+5 148 M
+(   third-party can create a page with the "oblivion.txt" name.) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                  [Page 9]) s
+_R
+S
+%%Page: (10) 10
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 10 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (10) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(6.  IANA Considerations) s
+5 621 M
+(   "example.com" is used in this document following the uses indicated) s
+5 610 M
+(   in [RFC2606].) s
+5 588 M
+(   "192.0.2.0" and "2001:db8:8:4::2" are used in this document following) s
+5 577 M
+(   the uses indicated in [RFC6890].) s
+5 555 M
+(6.1.  Well-Known URIs registry) s
+5 533 M
+(   The "Well-Known URIs" registry should be updated with the following) s
+5 522 M
+(   additional values \(using the template from [RFC5785]\):) s
+5 500 M
+(   URI suffix: oblivion.txt) s
+5 478 M
+(   URI suffix: oblivion.txt.sig) s
+5 456 M
+(   Change controller: IETF) s
+5 434 M
+(   Specification document\(s\): this document) s
+5 412 M
+(6.2.  Registry for "oblivion.txt" Header Fields) s
+5 390 M
+(   IANA is requested to create the "oblivion.txt Header Fields" registry) s
+5 379 M
+(   in accordance with [RFC8126].  This registry will contain header) s
+5 368 M
+(   fields for use in "oblivion.txt" files, defined by this) s
+5 357 M
+(   specification.) s
+5 335 M
+(   New registrations or updates MUST be published in accordance with the) s
+5 324 M
+(   "Expert Review" guidelines as described in section 4.5 of [RFC8126].) s
+5 313 M
+(   Any new field thus registered is considered optional by this) s
+5 302 M
+(   specification unless a new version of this specification is) s
+5 291 M
+(   published.) s
+5 269 M
+(   New registrations and updates MUST contain the following information:) s
+5 247 M
+(   1.  Name of the field being registered or updated) s
+5 225 M
+(   2.  Short description of the field) s
+5 203 M
+(   3.  Whether the field can appear more than once) s
+5 181 M
+(   4.  The document in which the specification of the field is published) s
+5 159 M
+(   5.  New or updated status, which MUST be one of the following:) s
+5 137 M
+(       1.  "current".  The field is in current use.) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                 [Page 10]) s
+_R
+S
+%%Page: (11) 11
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 11 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (11) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(       2.  "deprecated".  The field is in current use, but its use is) s
+5 632 M
+(           discouraged.) s
+5 610 M
+(       3.  "historic".  The field is no longer in current use.) s
+5 588 M
+(   An update may make a notation on an existing registration indicating) s
+5 577 M
+(   that a registered field is historical or deprecated if appropriate.) s
+5 555 M
+(   The initial registry contains these values:) s
+5 533 M
+(   Field Name: Contact) s
+5 511 M
+(   Description: contact information to use for opt-out related issues) s
+5 489 M
+(   Multiple Appearances: Yes) s
+5 467 M
+(   Published in: this document) s
+5 445 M
+(   Status: current) s
+5 423 M
+(   Field Name: Deactivate) s
+5 401 M
+(   Description: link to the deactivation) s
+5 379 M
+(   Multiple Appearances: No) s
+5 357 M
+(   Published in: this document) s
+5 335 M
+(   Status: current) s
+5 313 M
+(   Field Name: Delete) s
+5 291 M
+(   Description: link to the deletion page) s
+5 269 M
+(   Multiple Appearances: No) s
+5 247 M
+(   Published in: this document) s
+5 225 M
+(   Status: current) s
+5 203 M
+(   Field Name: Encryption) s
+5 181 M
+(   Description: link to a key to be used for encrypted communications) s
+5 159 M
+(   Multiple Appearances: Yes) s
+5 137 M
+(   Published in: this document) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                 [Page 11]) s
+_R
+S
+%%Page: (12) 12
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 12 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (12) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(   Status: current) s
+5 621 M
+(   Field Name: Policy) s
+5 599 M
+(   Description: link to privacy policy page) s
+5 577 M
+(   Multiple Appearances: Yes) s
+5 555 M
+(   Published in: this document) s
+5 533 M
+(   Status: current) s
+5 511 M
+(   Field Name: Signature) s
+5 489 M
+(   Description: signature used to verify the authenticity of the file) s
+5 467 M
+(   Multiple Appearances: No) s
+5 445 M
+(   Published in: this document) s
+5 423 M
+(   Status: current) s
+5 401 M
+(7.  Contributors) s
+5 379 M
+(   The authors would like to acknowledge the work started by E.  Foudil,) s
+5 368 M
+(   Y.  Shafranovich et al. in defining the structure and purpouse of the) s
+5 357 M
+(   "security.txt" file as shown in the Internet Draft "A Method for Web) s
+5 346 M
+(   Security Policies".  The structure of this document including several) s
+5 335 M
+(   normartive and formal sections have been used as a referemce for the) s
+5 324 M
+(   final structure of many of the normative parts in this document.) s
+5 302 M
+(8.  Normative References) s
+5 280 M
+(   [RFC1945]  Berners-Lee, T., Fielding, R., and H. Frystyk, "Hypertext) s
+5 269 M
+(              Transfer Protocol -- HTTP/1.0", RFC 1945,) s
+5 258 M
+(              DOI 10.17487/RFC1945, May 1996,) s
+5 247 M
+(              <https://www.rfc-editor.org/info/rfc1945>.) s
+5 225 M
+(   [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail) s
+5 214 M
+(              Extensions \(MIME\) Part Two: Media Types", RFC 2046,) s
+5 203 M
+(              DOI 10.17487/RFC2046, November 1996,) s
+5 192 M
+(              <https://www.rfc-editor.org/info/rfc2046>.) s
+5 170 M
+(   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate) s
+5 159 M
+(              Requirement Levels", BCP 14, RFC 2119,) s
+5 148 M
+(              DOI 10.17487/RFC2119, March 1997,) s
+5 137 M
+(              <https://www.rfc-editor.org/info/rfc2119>.) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                 [Page 12]) s
+_R
+S
+%%Page: (13) 13
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 13 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (13) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(   [RFC2142]  Crocker, D., "Mailbox Names for Common Services, Roles and) s
+5 632 M
+(              Functions", RFC 2142, DOI 10.17487/RFC2142, May 1997,) s
+5 621 M
+(              <https://www.rfc-editor.org/info/rfc2142>.) s
+5 599 M
+(   [RFC2606]  Eastlake 3rd, D. and A. Panitz, "Reserved Top Level DNS) s
+5 588 M
+(              Names", BCP 32, RFC 2606, DOI 10.17487/RFC2606, June 1999,) s
+5 577 M
+(              <https://www.rfc-editor.org/info/rfc2606>.) s
+5 555 M
+(   [RFC3629]  Yergeau, F., "UTF-8, a transformation format of ISO) s
+5 544 M
+(              10646", STD 63, RFC 3629, DOI 10.17487/RFC3629, November) s
+5 533 M
+(              2003, <https://www.rfc-editor.org/info/rfc3629>.) s
+5 511 M
+(   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform) s
+5 500 M
+(              Resource Identifier \(URI\): Generic Syntax", STD 66,) s
+5 489 M
+(              RFC 3986, DOI 10.17487/RFC3986, January 2005,) s
+5 478 M
+(              <https://www.rfc-editor.org/info/rfc3986>.) s
+5 456 M
+(   [RFC5198]  Klensin, J. and M. Padlipsky, "Unicode Format for Network) s
+5 445 M
+(              Interchange", RFC 5198, DOI 10.17487/RFC5198, March 2008,) s
+5 434 M
+(              <https://www.rfc-editor.org/info/rfc5198>.) s
+5 412 M
+(   [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax) s
+5 401 M
+(              Specifications: ABNF", STD 68, RFC 5234,) s
+5 390 M
+(              DOI 10.17487/RFC5234, January 2008,) s
+5 379 M
+(              <https://www.rfc-editor.org/info/rfc5234>.) s
+5 357 M
+(   [RFC5322]  Resnick, P., Ed., "Internet Message Format", RFC 5322,) s
+5 346 M
+(              DOI 10.17487/RFC5322, October 2008,) s
+5 335 M
+(              <https://www.rfc-editor.org/info/rfc5322>.) s
+5 313 M
+(   [RFC5785]  Nottingham, M. and E. Hammer-Lahav, "Defining Well-Known) s
+5 302 M
+(              Uniform Resource Identifiers \(URIs\)", RFC 5785,) s
+5 291 M
+(              DOI 10.17487/RFC5785, April 2010,) s
+5 280 M
+(              <https://www.rfc-editor.org/info/rfc5785>.) s
+5 258 M
+(   [RFC6890]  Cotton, M., Vegoda, L., Bonica, R., Ed., and B. Haberman,) s
+5 247 M
+(              "Special-Purpose IP Address Registries", BCP 153,) s
+5 236 M
+(              RFC 6890, DOI 10.17487/RFC6890, April 2013,) s
+5 225 M
+(              <https://www.rfc-editor.org/info/rfc6890>.) s
+5 203 M
+(   [RFC7231]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer) s
+5 192 M
+(              Protocol \(HTTP/1.1\): Semantics and Content", RFC 7231,) s
+5 181 M
+(              DOI 10.17487/RFC7231, June 2014,) s
+5 170 M
+(              <https://www.rfc-editor.org/info/rfc7231>.) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                 [Page 13]) s
+_R
+S
+%%Page: (14) 14
+%%BeginPageSetup
+_S
+38 24 translate
+/pagenum 14 def
+/fname (draft-brezorubio-wg-oblivion-00.txt) def
+/fdir (.) def
+/ftail (draft-brezorubio-wg-oblivion-00.txt) def
+% User defined strings:
+/fmodstr (lun dic 03 18:38:24 2018) def
+/pagenumstr (14) def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 676 M
+(Internet-Draft                     I-D                     December 2018) s
+5 643 M
+(   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for) s
+5 632 M
+(              Writing an IANA Considerations Section in RFCs", BCP 26,) s
+5 621 M
+(              RFC 8126, DOI 10.17487/RFC8126, June 2017,) s
+5 610 M
+(              <https://www.rfc-editor.org/info/rfc8126>.) s
+5 588 M
+(Authors' Addresses) s
+5 566 M
+(   Felix Brezo) s
+5 555 M
+(   Telefonica) s
+5 533 M
+(   Email: felix.brezofernandez@telefonica.com) s
+5 500 M
+(   Yaiza Rubio) s
+5 489 M
+(   Telefonica) s
+5 467 M
+(   Email: yaiza.rubiovinuela@telefonica.com) s
+5 82 M
+(Brezo & Rubio             Expires June 6, 2019                 [Page 14]) s
+_R
+S
+%%Trailer
+%%Pages: 14
+%%DocumentNeededResources: font Courier-Bold Courier 
+%%EOF

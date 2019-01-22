@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC5785 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5785.xml">
+<!ENTITY RFC1945 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1945.xml">
+<!ENTITY RFC2046 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2046.xml">
+<!ENTITY RFC7231 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7231.xml">
+<!ENTITY RFC8126 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8126.xml">
+<!ENTITY RFC6890 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6890.xml">
+<!ENTITY RFC2606 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2606.xml">
+<!ENTITY RFC2142 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2142.xml">
+<!ENTITY RFC3986 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml">
+<!ENTITY RFC3629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3629.xml">
+<!ENTITY RFC5198 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5198.xml">
+<!ENTITY RFC5234 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5234.xml">
+<!ENTITY RFC5322 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5322.xml">
+]>
+
+<rfc ipr="trust200902" docName="draft-brezorubio-wg-oblivion-00" category="info">
+
+
+  <front>
+    <title abbrev="I-D">A Method for Deactivation and Deletion Policies</title>
+    <author initials="F." surname="Brezo" fullname="Felix Brezo">
+      <organization>Telefonica</organization>
+      <address>
+        <email>felix.brezofernandez@telefonica.com</email>
+      </address>
+    </author>
+    <author initials="Y." surname="Rubio" fullname="Yaiza Rubio">
+      <organization>Telefonica</organization>
+      <address>
+        <email>yaiza.rubiovinuela@telefonica.com</email>
+      </address>
+    </author>
+
+    <date year="2018" month="December" day="03"/>
+    <abstract>
+<t>The current method for opting out from a service are far from being standard.
+This fact makes the process of deactivating or deleting an account from a
+website difficult to find since each platform provides the link in a different
+way.
+This document defines a standard ("oblivion.txt") to help organizations to
+describe the steps to follow by a user for deactivating or deleting an account
+from their websites in a secure and standard way.</t>
+    </abstract>
+  </front>
+  <middle>
+
+
+<section anchor="introduction" title="Introduction">
+
+<section anchor="motivation-and-previous-work" title="Motivation and Previous Work">
+
+<t>Many of the standard interaction of end users with online services involve creating and managing personal accounts.
+Even when the creation of these accounts may seem easy to control, generally, the deletion and deactivation of an account does not fulfill with any type of standards making each experience of look differently.</t>
+
+<t>Regarding this issue, there has been efforts to list the procedures followed by different platforms to conduct this task.
+For example, the project JustDelete.me shows a list of direct links to deletion URLs on different platforms.
+However, this process is mainly curated by contributors, which is an approach that does not scale well.</t>
+
+<t>In this document, we define a machine-readable and extensible way of communicating how users can interact with a service to deactivate their accounts or fully deleting them.
+This standard is thought to assist companies on providing a transparent and reachable way of giving access to their opt-out procedures so as to give back to the users the right to keep control of their own digital footprint.</t>
+
+</section>
+<section anchor="terminology" title="Terminology">
+
+<t>In this document, the key words "MUST", "MUST NOT", "REQUIRED",
+"SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY",
+and "OPTIONAL" are to be interpreted as described in BCP 14, RFC 2119
+<xref target="RFC2119"/>.</t>
+
+</section>
+</section>
+<section anchor="the-specification" title="The Specification">
+
+<t>This standard defines a text file to be placed in a known location that provides information for users and applications to assist them in the process of finding the tools to delete or remove accounts and services.</t>
+
+<t>The file is named "oblivion.txt", and this file SHOULD be placed under the Well-Known path ("/.well-known/oblivion.txt") <xref target="RFC5785"/> of a domain name or IP address for web properties.
+If it is not possible to place the "oblivion.txt" file in the Well-Known path or setup a redirect, web-based services MAY place the file in the top-level path of a given web domain or IP address ("/oblivion.txt") as a fall back option.
+For web-based services, the instructions MUST be accessible via the Hypertext Transfer Protocol <xref target="RFC1945"/> as a resource of Internet Media Type "text/plain" with the default charset parameter set to "utf-8" per section 4.1.3 of <xref target="RFC2046"/>.
+For file systems and version control repositories an ".oblivion.txt" file SHOULD be placed in the root directory of a particular file system or source code project.</t>
+
+<t>This text file contains multiple directives with different values.
+The "directive" is the first part of a field all the way up to the
+colon ("Contact:").
+Directives MUST be case-insensitive.
+The "value" comes after the directive ("https://example.com/oblivion").
+A "field" MUST alway consist of a directive and a value ("Contact: https://example.com/oblivion").
+An "oblivion.txt" file can have an unlimited number of fields.
+It is important to note that you MUST have a separate line for every field.  One MUST NOT chain multiple values for a single directive and everything MUST be in a separate field.
+Unless otherwise indicated in a definition of a particular field, any directive MAY appear multiple times.</t>
+
+<section anchor="scope" title="Scope">
+
+<t>An "oblivion.txt" file MUST apply to the domain in the URI used to retrieve it and to any of its subdomains or parent domains.
+However, an "oblivion.txt" file that is found in a file system or version control repository MUST only apply to the folder or repository in which it is located, and not to any of its parent or sibling folders, or repositories.</t>
+
+<t>Some examples appear below:</t>
+
+<t># The following only applies to example.com and subdomain.example.com</t>
+<t>https://example.com/.well-known/oblivion.txt</t>
+<t></t>
+<t># This only applies to subdomain.example.com but not to example.com</t>
+<t>https://subdomain.example.com/.well-known/oblivion.txt</t>
+<t></t>
+<t># This oblivion.txt file applies to IPv4 address of 192.0.2.0.</t>
+<t>http://192.0.2.0/.well-known/oblivion.txt</t>
+<t></t>
+<t># This oblivion.txt file applies to IPv6 address of 2001:db8:8:4::2.</t>
+<t>http://[2001:db8:8:4::2]/.well-known/oblivion.txt</t>
+<t></t>
+<t># This oblivion.txt file applies to the /example/folder1 directory.</t>
+<t>/example/folder1/oblivion.txt</t>
+</section>
+
+<section anchor="comments" title="Comments">
+
+<t>Any line beginning with the "#" (%x30) symbol MUST be interpreted as
+a comment.</t>
+
+<t>Example:</t>
+
+<t># This is a comment.</t>
+
+<t>You MAY use one or more comments as descriptive text immediately before the field.
+Parsers SHOULD associate the comments with the respective field.</t>
+</section>
+
+<section anchor="separate-fields" title="Separate Fields">
+
+<t>A separate line is REQUIRED for every new value and field.
+You MUST NOT chain everything into a single field.
+Every line MUST end either with a carriage return and line feed characters (CRLF / %x0D %x0A) or just a line feed character (LF / %x0A).</t>
+
+</section>
+
+<section anchor="field-definitions" title="Field Definitions">
+
+<section anchor="contact" title="Contact">
+
+<t>This directive allows you to provide an address where users CAN ask for additional information to delete their accounts.
+The value MAY be an email address, a phone number and/or a contact page with more information.
+The "Contact:" directive MUST always be present in an "oblivion.txt" file.
+If this directive indicates a web URL, then it MUST be begin with "https://".
+Contact email addresses SHOULD use the conventions defined in section 4 of <xref target="RFC2142"/>, but there is no requirement for this directive to be an email address.</t>
+
+<t>The value MUST follow the general syntax described in <xref target="RFC3986"/>.
+This means that "mailto" and "tel" URI schemes MUST be used when specifying email addresses and telephone numbers.</t>
+
+<t>The precedence SHOULD be in listed order.
+The first field is the preferred method of contact.
+In the example below, the e-mail address is the preferred method of contact.</t>
+
+<t>Contact: mailto:oblivion@example.com</t>
+<t>Contact: tel:+1-201-555-0123</t>
+<t>Contact: https://example.com/oblivion-contact.html</t>
+
+</section>
+<section anchor="deactivate" title="Deactivate">
+
+<t>The "Deactivate" directive is used for linking to the deactivation procedure.
+If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
+
+<t>Hiring: https://example.com/deactivate-account.html</t>
+
+</section>
+<section anchor="delete" title="Delete">
+
+<t>The "Delete" directive is used for linking to the deletion procedure.
+If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
+
+<t>Hiring: https://example.com/delete-account.html</t>
+
+</section>
+</section>
+<section anchor="encryption" title="Encryption">
+
+<t>This directive allows you to point to an encryption key that any user or application SHOULD use for encrypted communication.
+You MUST NOT directly add your key to the field.
+Instead the value of this field MUST be a URI pointing to a location where the key can be retrieved from.
+If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
+
+<t>When it comes to verifying the authenticity of the key, it is always the user's responsibility to make sure the key being specified is indeed one they trust.
+Users MUST NOT assume that this key is used to generate the signature file referenced in Section 2.4.6.</t>
+
+<t>Example of a PGP key available from a web server:</t>
+<t>Encryption: https://example.com/pgp-key.txt</t>
+<t>Example of a PGP key available from an OPENPGPKEY DNS:</t>
+<t>Encryption: dns:5d2d37ab76d47d36._pgp.example.com?type=OPENPGPKEY</t>
+<t>Example of a PGP key being referenced by its fingerprint:</t>
+<t>Encryption: openpgp4fpr:5f2de5521c63a801ab59ccb603d49de44b29100f</t>
+
+<section anchor="policy" title="Policy">
+
+<t>This directive allows you to link to where your privacy policy and/or  terms and conditions policy is located.
+This can help end users to understand what are the conditions to opt-out in the service.
+If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
+
+<t>Example:</t>
+<t>Policy: https://example.com/privacy-policy.html</t>
+
+</section>
+
+<section anchor="signature" title="Signature">
+
+<t>This directive allows you to specify a full URI (as per <xref target="RFC3986"/>) of an external signature file that can be used to check the authenticity of a "oblivion.txt" file.
+External signature files SHOULD be named "oblivion.txt.sig" and SHOULD be placed under the Well-Known path ("/.well-known/oblivion.txt.sig").
+If this directive indicates a web URL, then it MUST be begin with "https://".
+This directive MUST NOT appear more than once.</t>
+
+<t>It is RECOMMENDED to implementors that this directive is always used.</t>
+
+<t>When it comes to verifying the authenticity of the file, it is always the user's responsibility to make sure the key being specified is indeed one they trust.</t>
+
+<t>Here is an example of an external signature file.</t>
+
+<t>Signature: https://example.com/.well-known/oblivion.txt.sig</t>
+</section>
+</section>
+
+<section anchor="example-of-an-obliviontxt-file" title='Example of an "oblivion.txt" File'>
+
+<t># Our oblivion address</t>
+<t>Contact: mailto:oblivion@example.com</t>
+<t># Our PGP key</t>
+<t>Encryption: https://example.com/pgp-key.txt</t>
+<t># Our privacy policy</t>
+<t>Policy: https://example.com/privacy-policy.html</t>
+<t># Deactivate from our service</t>
+<t>Deactivate: https://example.com/deactivate-account.html</t>
+<t># Delete your account from our service</t>
+<t>Delete: https://example.com/delete-account.html</t>
+<t># Verify this oblivion.txt file</t>
+<t>Signature: https://example.com/.well-known/oblivion.txt.sig</t>
+
+</section>
+</section>
+
+<section anchor="location-of-the-obliviontxt-file" title='Location of the "oblivion.txt" File'>
+
+<figure anchor="external_location" title='External Location of the "oblivion.txt" File.'>
+  <artwork>
+  <![CDATA[
++----------------------------------------------------------------+
+|              Default                                           |
+|  +-----------------------------+          +-----------------+  |
+|  |                             | Redirect |                 |  |
+|  |  /.well-known/oblivion.txt  <----------+  /oblivion.txt  |  |
+|  |                             |          |                 |  |
+|  +-----------------------------+          +-----------------+  |
+|                                                                |
++----------------------------------------------------------------+
+    ]]></artwork>
+</figure>
+
+<figure anchor="internal_location" title='Internal Location of the "oblivion.txt" File.'>
+  <artwork>
+  <![CDATA[
++------------------------+
+|                        |
+|  +------------------+  |
+|  |                  |  |
+|  |  /.oblivion.txt  |  |
+|  |                  |  |
+|  +------------------+  |
+|                        |
++------------------------+
+    ]]></artwork>
+</figure>
+
+<section anchor="web-based-services" title="Web-based services">
+
+
+<t>Web-based services SHOULD place the "oblivion.txt" file under the Well-Known path (e. g., "https://example.com/.well-known/oblivion.txt").
+An "oblivion.txt" file located under the top-level path SHOULD either redirect (as per section 6.4 of <xref target="RFC7231"/>) to the "oblivion.txt" file under the Well-Known path or be used as a fall back.</t>
+
+</section>
+<section anchor="filesystems" title="Filesystems">
+
+<t>File systems SHOULD place the "oblivion.txt" file under the root directory (e. g., "/.oblivion.txt", "C:\.oblivion.txt").</t>
+
+<t>user:/$ l</t>
+<t>.oblivion.txt</t>
+<t>example-directory-1/</t>
+<t>example-directory-2/</t>
+<t>example-directory-3/</t>
+<t>example-file</t>
+
+</section>
+<section anchor="internal-hosts" title="Internal hosts">
+
+<t>An ".oblivion.txt" file SHOULD be placed in the root directory of an internal host.</t>
+
+</section>
+<section anchor="extensibility" title="Extensibility">
+
+<t>Like many other formats and protocols, this format may need to be extended over time to fit the ever-changing landscape of the Internet.
+Therefore, extensibility is provided via an IANA registry for directives as defined in Section 6.2 of this document.
+Any directives registered via that process MUST be considered optional.
+To encourage extensibility and interoperability, implementors MUST ignore any fields they do not explicitly support.</t>
+
+</section>
+</section>
+<section anchor="file-format-description-and-abnf-grammar" title="File Format Description and ABNF Grammar">
+
+<t>The expected file format of the "oblivion.txt" file is plain text (MIME type "text/plain") as defined in section 4.1.3 of <xref target="RFC2046"/> and is encoded using UTF-8 <xref target="RFC3629"/> in Net-Unicode form <xref target="RFC5198"/>.</t>
+
+<t>The following is an ABNF definition of the "oblivion.txt" format, using the conventions defined in <xref target="RFC5234"/> and <xref target="RFC5322"/>.</t>
+
+<t>body                   = *line (permission-field eol) (signature-field eol) *line</t>
+
+<t>line                   = *1(field / comment) eol</t>
+
+<t>eol                    = *WSP [CR] LF</t>
+
+<t>field                  = acknowledgments-field /
+                         contact-field /
+                         deactivate-field /
+                         delete-field /
+                         encryption-field /
+                         policy-field /
+                         ext-field</t>
+
+<t>fs                     = ":"</t>
+
+<t>comment                = "#" *(WSP / VCHAR / %xA0-E007F)</t>
+
+<t>contact-field          = "Contact" fs SP (email / uri / phone)</t>
+
+<t>email                  = &lt;Email address as per <xref target="RFC5322"/>&gt;</t>
+
+<t>phone                  = "+" *1(DIGIT / "-" / "(" / ")" / SP)</t>
+
+<t>uri                    = &lt;URI as per <xref target="RFC3986"/>&gt;</t>
+
+<t>deactivate-field       = "Deactivate" fs SP uri</t>
+
+<t>delete-field           = "Delete" fs SP uri</t>
+
+<t>encryption-field       = "Encryption" fs SP uri</t>
+
+<t>policy-field           = "Policy" fs SP uri</t>
+
+<t>signature-field        = "Signature" fs SP uri</t>
+
+<t>ext-field              = field-name fs SP unstructured</t>
+
+<t>field-name             = &lt;as per section 3.6.8 of <xref target="RFC5322"/>&gt;</t>
+
+<t>unstructured           = &lt;as per section 3.2.5 of <xref target="RFC5322"/>&gt;</t>
+
+<t>"ext-field" refers to extension fields, which are discussed in Section 3.4 of this document</t>
+
+</section>
+<section anchor="security-considerations" title="Security Considerations">
+
+<t>Organizations creating "oblivion.txt" files will need to consider several security-related issues.
+These include exposure to sensitive information and attacks where limited access to a server could grant the ability to modify the contents of the "oblivion.txt" file or affect how it is served.
+Organizations SHOULD also monitor their "oblivion.txt" files regularly to detect tampering.
+Organizations SHOULD also ensure that any resources such as web pages, email addresses and telephone numbers references by an "oblivion.txt" file are kept current, are accessible and controlled by the organization, and are kept secure.</t>
+
+<t>To ensure the authenticity of the "oblivion.txt" file, organizations SHOULD sign the file and include the signature using the "Signature" directive (Section 2.4.6).
+As stated in Section 2.4.4 and Section 2.4.6, both encryption keys and external signature files MUST be loaded over HTTPS.</t>
+
+<t>Websites SHOULD reserve the "oblivion.txt" namespace to ensure no third-party can create a page with the "oblivion.txt" name.</t>
+
+</section>
+<section anchor="iana-considerations" title="IANA Considerations">
+
+<t>"example.com" is used in this document following the uses indicated in <xref target="RFC2606"/>.</t>
+
+<t>"192.0.2.0" and "2001:db8:8:4::2" are used in this document following the uses indicated in <xref target="RFC6890"/>.</t>
+
+<section anchor="well-known-uris-registry" title="Well-Known URIs registry">
+
+<t>The "Well-Known URIs" registry should be updated with the following additional values (using the template from <xref target="RFC5785"/>):</t>
+
+<t>URI suffix: oblivion.txt</t>
+<t>URI suffix: oblivion.txt.sig</t>
+<t>Change controller: IETF</t>
+<t>Specification document(s): this document</t>
+
+</section>
+<section anchor="registry-for-securitytxt-header-fields" title='Registry for "oblivion.txt" Header Fields'>
+
+<t>IANA is requested to create the "oblivion.txt Header Fields" registry in accordance with <xref target="RFC8126"/>.
+This registry will contain header fields for use in "oblivion.txt" files, defined by this specification.</t>
+
+<t>New registrations or updates MUST be published in accordance with the "Expert Review" guidelines as described in section 4.5 of <xref target="RFC8126"/>.
+Any new field thus registered is considered optional by this specification unless a new version of this specification is published.</t>
+
+<t>New registrations and updates MUST contain the following information:</t>
+
+<t><list style='numbers'>
+  <t>Name of the field being registered or updated</t>
+  <t>Short description of the field</t>
+  <t>Whether the field can appear more than once</t>
+  <t>The document in which the specification of the field is published</t>
+  <t>New or updated status, which MUST be one of the following:
+    <list style='numbers'>
+      <t>"current". The field is in current use.</t>
+      <t>"deprecated". The field is in current use, but its use is discouraged.</t>
+      <t>"historic". The field is no longer in current use.</t>
+    </list>
+  </t>
+</list></t>
+
+<t>An update may make a notation on an existing registration indicating that a registered field is historical or deprecated if appropriate.</t>
+
+<t>The initial registry contains these values:</t>
+
+<t>Field Name: Contact</t>
+<t>Description: contact information to use for opt-out related issues</t>
+<t>Multiple Appearances: Yes</t>
+<t>Published in: this document</t>
+<t>Status: current</t>
+
+<t>Field Name: Deactivate</t>
+<t>Description: link to the deactivation</t>
+<t>Multiple Appearances: No</t>
+<t>Published in: this document</t>
+<t>Status: current</t>
+
+<t>Field Name: Delete</t>
+<t>Description: link to the deletion page</t>
+<t>Multiple Appearances: No</t>
+<t>Published in: this document</t>
+<t>Status: current</t>
+
+<t>Field Name: Encryption</t>
+<t>Description: link to a key to be used for encrypted communications</t>
+<t>Multiple Appearances: Yes</t>
+<t>Published in: this document</t>
+<t>Status: current</t>
+
+<t>Field Name: Policy</t>
+<t>Description: link to privacy policy page</t>
+<t>Multiple Appearances: Yes</t>
+<t>Published in: this document</t>
+<t>Status: current</t>
+
+<t>Field Name: Signature</t>
+<t>Description: signature used to verify the authenticity of the file</t>
+<t>Multiple Appearances: No</t>
+<t>Published in: this document</t>
+<t>Status: current</t>
+
+</section>
+</section>
+<section anchor="contributors" title="Contributors">
+
+<t>The authors would like to acknowledge the work started by E. Foudil, Y. Shafranovich et al. in defining the structure and purpouse of the "security.txt" file as shown in the Internet Draft "A Method for Web Security Policies".
+The structure of this document including several normartive and formal sections have been used as a referemce for the final structure of many of the normative parts in this document.</t>
+
+</section>
+
+</middle>
+<back>
+  <references title='Normative References'>
+&RFC2119;
+&RFC5785;
+&RFC1945;
+&RFC2046;
+&RFC7231;
+&RFC8126;
+&RFC6890;
+&RFC2606;
+&RFC2142;
+&RFC3986;
+&RFC3629;
+&RFC5198;
+&RFC5234;
+&RFC5322;
+
+  </references>
+</back>
+</rfc>

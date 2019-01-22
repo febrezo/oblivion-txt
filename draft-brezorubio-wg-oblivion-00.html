@@ -1,0 +1,909 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>A Method for Deactivation and Deletion Policies</title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Motivation and Previous Work">
+<link href="#rfc.section.1.2" rel="Chapter" title="1.2 Terminology">
+<link href="#rfc.section.2" rel="Chapter" title="2 The Specification">
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Scope">
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Comments">
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Separate Fields">
+<link href="#rfc.section.2.4" rel="Chapter" title="2.4 Field Definitions">
+<link href="#rfc.section.2.4.1" rel="Chapter" title="2.4.1 Contact">
+<link href="#rfc.section.2.4.2" rel="Chapter" title="2.4.2 Deactivate">
+<link href="#rfc.section.2.4.3" rel="Chapter" title="2.4.3 Delete">
+<link href="#rfc.section.2.5" rel="Chapter" title="2.5 Encryption">
+<link href="#rfc.section.2.5.1" rel="Chapter" title="2.5.1 Policy">
+<link href="#rfc.section.2.5.2" rel="Chapter" title="2.5.2 Signature">
+<link href="#rfc.section.2.6" rel="Chapter" title='2.6 Example of an "oblivion.txt" File'>
+<link href="#rfc.section.3" rel="Chapter" title='3 Location of the "oblivion.txt" File'>
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Web-based services">
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Filesystems">
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Internal hosts">
+<link href="#rfc.section.3.4" rel="Chapter" title="3.4 Extensibility">
+<link href="#rfc.section.4" rel="Chapter" title="4 File Format Description and ABNF Grammar">
+<link href="#rfc.section.5" rel="Chapter" title="5 Security Considerations">
+<link href="#rfc.section.6" rel="Chapter" title="6 IANA Considerations">
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Well-Known URIs registry">
+<link href="#rfc.section.6.2" rel="Chapter" title='6.2 Registry for "oblivion.txt" Header Fields'>
+<link href="#rfc.section.7" rel="Chapter" title="7 Contributors">
+<link href="#rfc.references" rel="Chapter" title="8 Normative References">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.13.1 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Brezo, F. and Y. Rubio" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-brezorubio-wg-oblivion-00" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-12-03" />
+  <meta name="dct.abstract" content="The current method for opting out from a service are far from being standard.  This fact makes the process of deactivating or deleting an account from a website difficult to find since each platform provides the link in a different way.  This document defines a standard (&quot;oblivion.txt&quot;) to help organizations to describe the steps to follow by a user for deactivating or deleting an account from their websites in a secure and standard way." />
+  <meta name="description" content="The current method for opting out from a service are far from being standard.  This fact makes the process of deactivating or deleting an account from a website difficult to find since each platform provides the link in a different way.  This document defines a standard (&quot;oblivion.txt&quot;) to help organizations to describe the steps to follow by a user for deactivating or deleting an account from their websites in a secure and standard way." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">Network Working Group</td>
+<td class="right">F. Brezo</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">Y. Rubio</td>
+</tr>
+<tr>
+<td class="left">Intended status: Informational</td>
+<td class="right">Telefonica</td>
+</tr>
+<tr>
+<td class="left">Expires: June 6, 2019</td>
+<td class="right">December 03, 2018</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">A Method for Deactivation and Deletion Policies<br />
+  <span class="filename">draft-brezorubio-wg-oblivion-00</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>The current method for opting out from a service are far from being standard.  This fact makes the process of deactivating or deleting an account from a website difficult to find since each platform provides the link in a different way.  This document defines a standard ("oblivion.txt") to help organizations to describe the steps to follow by a user for deactivating or deleting an account from their websites in a secure and standard way.</p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on June 6, 2019.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+<h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a>
+</h1>
+<h1 id="rfc.section.1.1">
+<a href="#rfc.section.1.1">1.1.</a> <a href="#motivation-and-previous-work" id="motivation-and-previous-work">Motivation and Previous Work</a>
+</h1>
+<p id="rfc.section.1.1.p.1">Many of the standard interaction of end users with online services involve creating and managing personal accounts.  Even when the creation of these accounts may seem easy to control, generally, the deletion and deactivation of an account does not fulfill with any type of standards making each experience of look differently.</p>
+<p id="rfc.section.1.1.p.2">Regarding this issue, there has been efforts to list the procedures followed by different platforms to conduct this task.  For example, the project JustDelete.me shows a list of direct links to deletion URLs on different platforms.  However, this process is mainly curated by contributors, which is an approach that does not scale well.</p>
+<p id="rfc.section.1.1.p.3">In this document, we define a machine-readable and extensible way of communicating how users can interact with a service to deactivate their accounts or fully deleting them.  This standard is thought to assist companies on providing a transparent and reachable way of giving access to their opt-out procedures so as to give back to the users the right to keep control of their own digital footprint.</p>
+<h1 id="rfc.section.1.2">
+<a href="#rfc.section.1.2">1.2.</a> <a href="#terminology" id="terminology">Terminology</a>
+</h1>
+<p id="rfc.section.1.2.p.1">In this document, the key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" are to be interpreted as described in BCP 14, RFC 2119 <a href="#RFC2119" class="xref">[RFC2119]</a>.</p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#the-specification" id="the-specification">The Specification</a>
+</h1>
+<p id="rfc.section.2.p.1">This standard defines a text file to be placed in a known location that provides information for users and applications to assist them in the process of finding the tools to delete or remove accounts and services.</p>
+<p id="rfc.section.2.p.2">The file is named "oblivion.txt", and this file SHOULD be placed under the Well-Known path ("/.well-known/oblivion.txt") <a href="#RFC5785" class="xref">[RFC5785]</a> of a domain name or IP address for web properties.  If it is not possible to place the "oblivion.txt" file in the Well-Known path or setup a redirect, web-based services MAY place the file in the top-level path of a given web domain or IP address ("/oblivion.txt") as a fall back option.  For web-based services, the instructions MUST be accessible via the Hypertext Transfer Protocol <a href="#RFC1945" class="xref">[RFC1945]</a> as a resource of Internet Media Type "text/plain" with the default charset parameter set to "utf-8" per section 4.1.3 of <a href="#RFC2046" class="xref">[RFC2046]</a>.  For file systems and version control repositories an ".oblivion.txt" file SHOULD be placed in the root directory of a particular file system or source code project.</p>
+<p id="rfc.section.2.p.3">This text file contains multiple directives with different values.  The "directive" is the first part of a field all the way up to the colon ("Contact:").  Directives MUST be case-insensitive.  The "value" comes after the directive ("https://example.com/oblivion").  A "field" MUST alway consist of a directive and a value ("Contact: https://example.com/oblivion").  An "oblivion.txt" file can have an unlimited number of fields.  It is important to note that you MUST have a separate line for every field.  One MUST NOT chain multiple values for a single directive and everything MUST be in a separate field.  Unless otherwise indicated in a definition of a particular field, any directive MAY appear multiple times.</p>
+<h1 id="rfc.section.2.1">
+<a href="#rfc.section.2.1">2.1.</a> <a href="#scope" id="scope">Scope</a>
+</h1>
+<p id="rfc.section.2.1.p.1">An "oblivion.txt" file MUST apply to the domain in the URI used to retrieve it and to any of its subdomains or parent domains.  However, an "oblivion.txt" file that is found in a file system or version control repository MUST only apply to the folder or repository in which it is located, and not to any of its parent or sibling folders, or repositories.</p>
+<p id="rfc.section.2.1.p.2">Some examples appear below:</p>
+<p id="rfc.section.2.1.p.3"># The following only applies to example.com and subdomain.example.com</p>
+<p id="rfc.section.2.1.p.4">https://example.com/.well-known/oblivion.txt</p>
+<p></p>
+<p id="rfc.section.2.1.p.6"># This only applies to subdomain.example.com but not to example.com</p>
+<p id="rfc.section.2.1.p.7">https://subdomain.example.com/.well-known/oblivion.txt</p>
+<p></p>
+<p id="rfc.section.2.1.p.9"># This oblivion.txt file applies to IPv4 address of 192.0.2.0.</p>
+<p id="rfc.section.2.1.p.10">http://192.0.2.0/.well-known/oblivion.txt</p>
+<p></p>
+<p id="rfc.section.2.1.p.12"># This oblivion.txt file applies to IPv6 address of 2001:db8:8:4::2.</p>
+<p id="rfc.section.2.1.p.13">http://[2001:db8:8:4::2]/.well-known/oblivion.txt</p>
+<p></p>
+<p id="rfc.section.2.1.p.15"># This oblivion.txt file applies to the /example/folder1 directory.</p>
+<p id="rfc.section.2.1.p.16">/example/folder1/oblivion.txt</p>
+<h1 id="rfc.section.2.2">
+<a href="#rfc.section.2.2">2.2.</a> <a href="#comments" id="comments">Comments</a>
+</h1>
+<p id="rfc.section.2.2.p.1">Any line beginning with the "#" (%x30) symbol MUST be interpreted as a comment.</p>
+<p id="rfc.section.2.2.p.2">Example:</p>
+<p id="rfc.section.2.2.p.3"># This is a comment.</p>
+<p id="rfc.section.2.2.p.4">You MAY use one or more comments as descriptive text immediately before the field.  Parsers SHOULD associate the comments with the respective field.</p>
+<h1 id="rfc.section.2.3">
+<a href="#rfc.section.2.3">2.3.</a> <a href="#separate-fields" id="separate-fields">Separate Fields</a>
+</h1>
+<p id="rfc.section.2.3.p.1">A separate line is REQUIRED for every new value and field.  You MUST NOT chain everything into a single field.  Every line MUST end either with a carriage return and line feed characters (CRLF / %x0D %x0A) or just a line feed character (LF / %x0A).</p>
+<h1 id="rfc.section.2.4">
+<a href="#rfc.section.2.4">2.4.</a> <a href="#field-definitions" id="field-definitions">Field Definitions</a>
+</h1>
+<h1 id="rfc.section.2.4.1">
+<a href="#rfc.section.2.4.1">2.4.1.</a> <a href="#contact" id="contact">Contact</a>
+</h1>
+<p id="rfc.section.2.4.1.p.1">This directive allows you to provide an address where users CAN ask for additional information to delete their accounts.  The value MAY be an email address, a phone number and/or a contact page with more information.  The "Contact:" directive MUST always be present in an "oblivion.txt" file.  If this directive indicates a web URL, then it MUST be begin with "https://".  Contact email addresses SHOULD use the conventions defined in section 4 of <a href="#RFC2142" class="xref">[RFC2142]</a>, but there is no requirement for this directive to be an email address.</p>
+<p id="rfc.section.2.4.1.p.2">The value MUST follow the general syntax described in <a href="#RFC3986" class="xref">[RFC3986]</a>.  This means that "mailto" and "tel" URI schemes MUST be used when specifying email addresses and telephone numbers.</p>
+<p id="rfc.section.2.4.1.p.3">The precedence SHOULD be in listed order.  The first field is the preferred method of contact.  In the example below, the e-mail address is the preferred method of contact.</p>
+<p id="rfc.section.2.4.1.p.4">Contact: mailto:oblivion@example.com</p>
+<p id="rfc.section.2.4.1.p.5">Contact: tel:+1-201-555-0123</p>
+<p id="rfc.section.2.4.1.p.6">Contact: https://example.com/oblivion-contact.html</p>
+<h1 id="rfc.section.2.4.2">
+<a href="#rfc.section.2.4.2">2.4.2.</a> <a href="#deactivate" id="deactivate">Deactivate</a>
+</h1>
+<p id="rfc.section.2.4.2.p.1">The "Deactivate" directive is used for linking to the deactivation procedure.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
+<p id="rfc.section.2.4.2.p.2">Hiring: https://example.com/deactivate-account.html</p>
+<h1 id="rfc.section.2.4.3">
+<a href="#rfc.section.2.4.3">2.4.3.</a> <a href="#delete" id="delete">Delete</a>
+</h1>
+<p id="rfc.section.2.4.3.p.1">The "Delete" directive is used for linking to the deletion procedure.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
+<p id="rfc.section.2.4.3.p.2">Hiring: https://example.com/delete-account.html</p>
+<h1 id="rfc.section.2.5">
+<a href="#rfc.section.2.5">2.5.</a> <a href="#encryption" id="encryption">Encryption</a>
+</h1>
+<p id="rfc.section.2.5.p.1">This directive allows you to point to an encryption key that any user or application SHOULD use for encrypted communication.  You MUST NOT directly add your key to the field.  Instead the value of this field MUST be a URI pointing to a location where the key can be retrieved from.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
+<p id="rfc.section.2.5.p.2">When it comes to verifying the authenticity of the key, it is always the user's responsibility to make sure the key being specified is indeed one they trust.  Users MUST NOT assume that this key is used to generate the signature file referenced in Section 2.4.6.</p>
+<p id="rfc.section.2.5.p.3">Example of a PGP key available from a web server:</p>
+<p id="rfc.section.2.5.p.4">Encryption: https://example.com/pgp-key.txt</p>
+<p id="rfc.section.2.5.p.5">Example of a PGP key available from an OPENPGPKEY DNS:</p>
+<p id="rfc.section.2.5.p.6">Encryption: dns:5d2d37ab76d47d36._pgp.example.com?type=OPENPGPKEY</p>
+<p id="rfc.section.2.5.p.7">Example of a PGP key being referenced by its fingerprint:</p>
+<p id="rfc.section.2.5.p.8">Encryption: openpgp4fpr:5f2de5521c63a801ab59ccb603d49de44b29100f</p>
+<h1 id="rfc.section.2.5.1">
+<a href="#rfc.section.2.5.1">2.5.1.</a> <a href="#policy" id="policy">Policy</a>
+</h1>
+<p id="rfc.section.2.5.1.p.1">This directive allows you to link to where your privacy policy and/or  terms and conditions policy is located.  This can help end users to understand what are the conditions to opt-out in the service.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
+<p id="rfc.section.2.5.1.p.2">Example:</p>
+<p id="rfc.section.2.5.1.p.3">Policy: https://example.com/privacy-policy.html</p>
+<h1 id="rfc.section.2.5.2">
+<a href="#rfc.section.2.5.2">2.5.2.</a> <a href="#signature" id="signature">Signature</a>
+</h1>
+<p id="rfc.section.2.5.2.p.1">This directive allows you to specify a full URI (as per <a href="#RFC3986" class="xref">[RFC3986]</a>) of an external signature file that can be used to check the authenticity of a "oblivion.txt" file.  External signature files SHOULD be named "oblivion.txt.sig" and SHOULD be placed under the Well-Known path ("/.well-known/oblivion.txt.sig").  If this directive indicates a web URL, then it MUST be begin with "https://".  This directive MUST NOT appear more than once.</p>
+<p id="rfc.section.2.5.2.p.2">It is RECOMMENDED to implementors that this directive is always used.</p>
+<p id="rfc.section.2.5.2.p.3">When it comes to verifying the authenticity of the file, it is always the user's responsibility to make sure the key being specified is indeed one they trust.</p>
+<p id="rfc.section.2.5.2.p.4">Here is an example of an external signature file.</p>
+<p id="rfc.section.2.5.2.p.5">Signature: https://example.com/.well-known/oblivion.txt.sig</p>
+<h1 id="rfc.section.2.6">
+<a href="#rfc.section.2.6">2.6.</a> <a href="#example-of-an-obliviontxt-file" id="example-of-an-obliviontxt-file">Example of an "oblivion.txt" File</a>
+</h1>
+<p id="rfc.section.2.6.p.1"># Our oblivion address</p>
+<p id="rfc.section.2.6.p.2">Contact: mailto:oblivion@example.com</p>
+<p id="rfc.section.2.6.p.3"># Our PGP key</p>
+<p id="rfc.section.2.6.p.4">Encryption: https://example.com/pgp-key.txt</p>
+<p id="rfc.section.2.6.p.5"># Our privacy policy</p>
+<p id="rfc.section.2.6.p.6">Policy: https://example.com/privacy-policy.html</p>
+<p id="rfc.section.2.6.p.7"># Deactivate from our service</p>
+<p id="rfc.section.2.6.p.8">Deactivate: https://example.com/deactivate-account.html</p>
+<p id="rfc.section.2.6.p.9"># Delete your account from our service</p>
+<p id="rfc.section.2.6.p.10">Delete: https://example.com/delete-account.html</p>
+<p id="rfc.section.2.6.p.11"># Verify this oblivion.txt file</p>
+<p id="rfc.section.2.6.p.12">Signature: https://example.com/.well-known/oblivion.txt.sig</p>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> <a href="#location-of-the-obliviontxt-file" id="location-of-the-obliviontxt-file">Location of the "oblivion.txt" File</a>
+</h1>
+<div id="rfc.figure.1"></div>
+<div id="external_location"></div>
+<pre>
+  
++----------------------------------------------------------------+
+|              Default                                           |
+|  +-----------------------------+          +-----------------+  |
+|  |                             | Redirect |                 |  |
+|  |  /.well-known/oblivion.txt  &lt;----------+  /oblivion.txt  |  |
+|  |                             |          |                 |  |
+|  +-----------------------------+          +-----------------+  |
+|                                                                |
++----------------------------------------------------------------+
+    </pre>
+<p class="figure">Figure 1: External Location of the "oblivion.txt" File.</p>
+<div id="rfc.figure.2"></div>
+<div id="internal_location"></div>
+<pre>
+  
++------------------------+
+|                        |
+|  +------------------+  |
+|  |                  |  |
+|  |  /.oblivion.txt  |  |
+|  |                  |  |
+|  +------------------+  |
+|                        |
++------------------------+
+    </pre>
+<p class="figure">Figure 2: Internal Location of the "oblivion.txt" File.</p>
+<h1 id="rfc.section.3.1">
+<a href="#rfc.section.3.1">3.1.</a> <a href="#web-based-services" id="web-based-services">Web-based services</a>
+</h1>
+<p id="rfc.section.3.1.p.1">Web-based services SHOULD place the "oblivion.txt" file under the Well-Known path (e. g., "https://example.com/.well-known/oblivion.txt").  An "oblivion.txt" file located under the top-level path SHOULD either redirect (as per section 6.4 of <a href="#RFC7231" class="xref">[RFC7231]</a>) to the "oblivion.txt" file under the Well-Known path or be used as a fall back.</p>
+<h1 id="rfc.section.3.2">
+<a href="#rfc.section.3.2">3.2.</a> <a href="#filesystems" id="filesystems">Filesystems</a>
+</h1>
+<p id="rfc.section.3.2.p.1">File systems SHOULD place the "oblivion.txt" file under the root directory (e. g., "/.oblivion.txt", "C:\.oblivion.txt").</p>
+<p id="rfc.section.3.2.p.2">user:/$ l</p>
+<p id="rfc.section.3.2.p.3">.oblivion.txt</p>
+<p id="rfc.section.3.2.p.4">example-directory-1/</p>
+<p id="rfc.section.3.2.p.5">example-directory-2/</p>
+<p id="rfc.section.3.2.p.6">example-directory-3/</p>
+<p id="rfc.section.3.2.p.7">example-file</p>
+<h1 id="rfc.section.3.3">
+<a href="#rfc.section.3.3">3.3.</a> <a href="#internal-hosts" id="internal-hosts">Internal hosts</a>
+</h1>
+<p id="rfc.section.3.3.p.1">An ".oblivion.txt" file SHOULD be placed in the root directory of an internal host.</p>
+<h1 id="rfc.section.3.4">
+<a href="#rfc.section.3.4">3.4.</a> <a href="#extensibility" id="extensibility">Extensibility</a>
+</h1>
+<p id="rfc.section.3.4.p.1">Like many other formats and protocols, this format may need to be extended over time to fit the ever-changing landscape of the Internet.  Therefore, extensibility is provided via an IANA registry for directives as defined in Section 6.2 of this document.  Any directives registered via that process MUST be considered optional.  To encourage extensibility and interoperability, implementors MUST ignore any fields they do not explicitly support.</p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> <a href="#file-format-description-and-abnf-grammar" id="file-format-description-and-abnf-grammar">File Format Description and ABNF Grammar</a>
+</h1>
+<p id="rfc.section.4.p.1">The expected file format of the "oblivion.txt" file is plain text (MIME type "text/plain") as defined in section 4.1.3 of <a href="#RFC2046" class="xref">[RFC2046]</a> and is encoded using UTF-8 <a href="#RFC3629" class="xref">[RFC3629]</a> in Net-Unicode form <a href="#RFC5198" class="xref">[RFC5198]</a>.</p>
+<p id="rfc.section.4.p.2">The following is an ABNF definition of the "oblivion.txt" format, using the conventions defined in <a href="#RFC5234" class="xref">[RFC5234]</a> and <a href="#RFC5322" class="xref">[RFC5322]</a>.</p>
+<p id="rfc.section.4.p.3">body                   = *line (permission-field eol) (signature-field eol) *line</p>
+<p id="rfc.section.4.p.4">line                   = *1(field / comment) eol</p>
+<p id="rfc.section.4.p.5">eol                    = *WSP [CR] LF</p>
+<p id="rfc.section.4.p.6">field                  = acknowledgments-field / contact-field / deactivate-field / delete-field / encryption-field / policy-field / ext-field</p>
+<p id="rfc.section.4.p.7">fs                     = ":"</p>
+<p id="rfc.section.4.p.8">comment                = "#" *(WSP / VCHAR / %xA0-E007F)</p>
+<p id="rfc.section.4.p.9">contact-field          = "Contact" fs SP (email / uri / phone)</p>
+<p id="rfc.section.4.p.10">email                  = &lt;Email address as per <a href="#RFC5322" class="xref">[RFC5322]</a>&gt;</p>
+<p id="rfc.section.4.p.11">phone                  = "+" *1(DIGIT / "-" / "(" / ")" / SP)</p>
+<p id="rfc.section.4.p.12">uri                    = &lt;URI as per <a href="#RFC3986" class="xref">[RFC3986]</a>&gt;</p>
+<p id="rfc.section.4.p.13">deactivate-field       = "Deactivate" fs SP uri</p>
+<p id="rfc.section.4.p.14">delete-field           = "Delete" fs SP uri</p>
+<p id="rfc.section.4.p.15">encryption-field       = "Encryption" fs SP uri</p>
+<p id="rfc.section.4.p.16">policy-field           = "Policy" fs SP uri</p>
+<p id="rfc.section.4.p.17">signature-field        = "Signature" fs SP uri</p>
+<p id="rfc.section.4.p.18">ext-field              = field-name fs SP unstructured</p>
+<p id="rfc.section.4.p.19">field-name             = &lt;as per section 3.6.8 of <a href="#RFC5322" class="xref">[RFC5322]</a>&gt;</p>
+<p id="rfc.section.4.p.20">unstructured           = &lt;as per section 3.2.5 of <a href="#RFC5322" class="xref">[RFC5322]</a>&gt;</p>
+<p id="rfc.section.4.p.21">"ext-field" refers to extension fields, which are discussed in Section 3.4 of this document</p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
+</h1>
+<p id="rfc.section.5.p.1">Organizations creating "oblivion.txt" files will need to consider several security-related issues.  These include exposure to sensitive information and attacks where limited access to a server could grant the ability to modify the contents of the "oblivion.txt" file or affect how it is served.  Organizations SHOULD also monitor their "oblivion.txt" files regularly to detect tampering.  Organizations SHOULD also ensure that any resources such as web pages, email addresses and telephone numbers references by an "oblivion.txt" file are kept current, are accessible and controlled by the organization, and are kept secure.</p>
+<p id="rfc.section.5.p.2">To ensure the authenticity of the "oblivion.txt" file, organizations SHOULD sign the file and include the signature using the "Signature" directive (Section 2.4.6).  As stated in Section 2.4.4 and Section 2.4.6, both encryption keys and external signature files MUST be loaded over HTTPS.</p>
+<p id="rfc.section.5.p.3">Websites SHOULD reserve the "oblivion.txt" namespace to ensure no third-party can create a page with the "oblivion.txt" name.</p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
+</h1>
+<p id="rfc.section.6.p.1">"example.com" is used in this document following the uses indicated in <a href="#RFC2606" class="xref">[RFC2606]</a>.</p>
+<p id="rfc.section.6.p.2">"192.0.2.0" and "2001:db8:8:4::2" are used in this document following the uses indicated in <a href="#RFC6890" class="xref">[RFC6890]</a>.</p>
+<h1 id="rfc.section.6.1">
+<a href="#rfc.section.6.1">6.1.</a> <a href="#well-known-uris-registry" id="well-known-uris-registry">Well-Known URIs registry</a>
+</h1>
+<p id="rfc.section.6.1.p.1">The "Well-Known URIs" registry should be updated with the following additional values (using the template from <a href="#RFC5785" class="xref">[RFC5785]</a>):</p>
+<p id="rfc.section.6.1.p.2">URI suffix: oblivion.txt</p>
+<p id="rfc.section.6.1.p.3">URI suffix: oblivion.txt.sig</p>
+<p id="rfc.section.6.1.p.4">Change controller: IETF</p>
+<p id="rfc.section.6.1.p.5">Specification document(s): this document</p>
+<h1 id="rfc.section.6.2">
+<a href="#rfc.section.6.2">6.2.</a> <a href="#registry-for-securitytxt-header-fields" id="registry-for-securitytxt-header-fields">Registry for "oblivion.txt" Header Fields</a>
+</h1>
+<p id="rfc.section.6.2.p.1">IANA is requested to create the "oblivion.txt Header Fields" registry in accordance with <a href="#RFC8126" class="xref">[RFC8126]</a>.  This registry will contain header fields for use in "oblivion.txt" files, defined by this specification.</p>
+<p id="rfc.section.6.2.p.2">New registrations or updates MUST be published in accordance with the "Expert Review" guidelines as described in section 4.5 of <a href="#RFC8126" class="xref">[RFC8126]</a>.  Any new field thus registered is considered optional by this specification unless a new version of this specification is published.</p>
+<p id="rfc.section.6.2.p.3">New registrations and updates MUST contain the following information:</p>
+<p></p>
+
+<ol>
+<li>Name of the field being registered or updated</li>
+<li>Short description of the field</li>
+<li>Whether the field can appear more than once</li>
+<li>The document in which the specification of the field is published</li>
+<li>New or updated status, which MUST be one of the following: <ol>
+<li>"current". The field is in current use.</li>
+<li>"deprecated". The field is in current use, but its use is discouraged.</li>
+<li>"historic". The field is no longer in current use.</li>
+</ol>
+<p> </p>
+</li>
+</ol>
+<p id="rfc.section.6.2.p.5">An update may make a notation on an existing registration indicating that a registered field is historical or deprecated if appropriate.</p>
+<p id="rfc.section.6.2.p.6">The initial registry contains these values:</p>
+<p id="rfc.section.6.2.p.7">Field Name: Contact</p>
+<p id="rfc.section.6.2.p.8">Description: contact information to use for opt-out related issues</p>
+<p id="rfc.section.6.2.p.9">Multiple Appearances: Yes</p>
+<p id="rfc.section.6.2.p.10">Published in: this document</p>
+<p id="rfc.section.6.2.p.11">Status: current</p>
+<p id="rfc.section.6.2.p.12">Field Name: Deactivate</p>
+<p id="rfc.section.6.2.p.13">Description: link to the deactivation</p>
+<p id="rfc.section.6.2.p.14">Multiple Appearances: No</p>
+<p id="rfc.section.6.2.p.15">Published in: this document</p>
+<p id="rfc.section.6.2.p.16">Status: current</p>
+<p id="rfc.section.6.2.p.17">Field Name: Delete</p>
+<p id="rfc.section.6.2.p.18">Description: link to the deletion page</p>
+<p id="rfc.section.6.2.p.19">Multiple Appearances: No</p>
+<p id="rfc.section.6.2.p.20">Published in: this document</p>
+<p id="rfc.section.6.2.p.21">Status: current</p>
+<p id="rfc.section.6.2.p.22">Field Name: Encryption</p>
+<p id="rfc.section.6.2.p.23">Description: link to a key to be used for encrypted communications</p>
+<p id="rfc.section.6.2.p.24">Multiple Appearances: Yes</p>
+<p id="rfc.section.6.2.p.25">Published in: this document</p>
+<p id="rfc.section.6.2.p.26">Status: current</p>
+<p id="rfc.section.6.2.p.27">Field Name: Policy</p>
+<p id="rfc.section.6.2.p.28">Description: link to privacy policy page</p>
+<p id="rfc.section.6.2.p.29">Multiple Appearances: Yes</p>
+<p id="rfc.section.6.2.p.30">Published in: this document</p>
+<p id="rfc.section.6.2.p.31">Status: current</p>
+<p id="rfc.section.6.2.p.32">Field Name: Signature</p>
+<p id="rfc.section.6.2.p.33">Description: signature used to verify the authenticity of the file</p>
+<p id="rfc.section.6.2.p.34">Multiple Appearances: No</p>
+<p id="rfc.section.6.2.p.35">Published in: this document</p>
+<p id="rfc.section.6.2.p.36">Status: current</p>
+<h1 id="rfc.section.7">
+<a href="#rfc.section.7">7.</a> <a href="#contributors" id="contributors">Contributors</a>
+</h1>
+<p id="rfc.section.7.p.1">The authors would like to acknowledge the work started by E. Foudil, Y. Shafranovich et al. in defining the structure and purpouse of the "security.txt" file as shown in the Internet Draft "A Method for Web Security Policies".  The structure of this document including several normartive and formal sections have been used as a referemce for the final structure of many of the normative parts in this document.</p>
+<h1 id="rfc.references">
+<a href="#rfc.references">8.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="RFC1945">[RFC1945]</b></td>
+<td class="top">
+<a>Berners-Lee, T.</a>, <a>Fielding, R.</a> and <a>H. Frystyk</a>, "<a href="https://tools.ietf.org/html/rfc1945">Hypertext Transfer Protocol -- HTTP/1.0</a>", RFC 1945, DOI 10.17487/RFC1945, May 1996.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2046">[RFC2046]</b></td>
+<td class="top">
+<a>Freed, N.</a> and <a>N. Borenstein</a>, "<a href="https://tools.ietf.org/html/rfc2046">Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</a>", RFC 2046, DOI 10.17487/RFC2046, November 1996.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2142">[RFC2142]</b></td>
+<td class="top">
+<a>Crocker, D.</a>, "<a href="https://tools.ietf.org/html/rfc2142">Mailbox Names for Common Services, Roles and Functions</a>", RFC 2142, DOI 10.17487/RFC2142, May 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2606">[RFC2606]</b></td>
+<td class="top">
+<a>Eastlake 3rd, D.</a> and <a>A. Panitz</a>, "<a href="https://tools.ietf.org/html/rfc2606">Reserved Top Level DNS Names</a>", BCP 32, RFC 2606, DOI 10.17487/RFC2606, June 1999.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC3629">[RFC3629]</b></td>
+<td class="top">
+<a>Yergeau, F.</a>, "<a href="https://tools.ietf.org/html/rfc3629">UTF-8, a transformation format of ISO 10646</a>", STD 63, RFC 3629, DOI 10.17487/RFC3629, November 2003.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC3986">[RFC3986]</b></td>
+<td class="top">
+<a>Berners-Lee, T.</a>, <a>Fielding, R.</a> and <a>L. Masinter</a>, "<a href="https://tools.ietf.org/html/rfc3986">Uniform Resource Identifier (URI): Generic Syntax</a>", STD 66, RFC 3986, DOI 10.17487/RFC3986, January 2005.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5198">[RFC5198]</b></td>
+<td class="top">
+<a>Klensin, J.</a> and <a>M. Padlipsky</a>, "<a href="https://tools.ietf.org/html/rfc5198">Unicode Format for Network Interchange</a>", RFC 5198, DOI 10.17487/RFC5198, March 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5234">[RFC5234]</b></td>
+<td class="top">
+<a>Crocker, D.</a> and <a>P. Overell</a>, "<a href="https://tools.ietf.org/html/rfc5234">Augmented BNF for Syntax Specifications: ABNF</a>", STD 68, RFC 5234, DOI 10.17487/RFC5234, January 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5322">[RFC5322]</b></td>
+<td class="top">
+<a>Resnick, P.</a>, "<a href="https://tools.ietf.org/html/rfc5322">Internet Message Format</a>", RFC 5322, DOI 10.17487/RFC5322, October 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5785">[RFC5785]</b></td>
+<td class="top">
+<a>Nottingham, M.</a> and <a>E. Hammer-Lahav</a>, "<a href="https://tools.ietf.org/html/rfc5785">Defining Well-Known Uniform Resource Identifiers (URIs)</a>", RFC 5785, DOI 10.17487/RFC5785, April 2010.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6890">[RFC6890]</b></td>
+<td class="top">
+<a>Cotton, M.</a>, <a>Vegoda, L.</a>, <a>Bonica, R.</a> and <a>B. Haberman</a>, "<a href="https://tools.ietf.org/html/rfc6890">Special-Purpose IP Address Registries</a>", BCP 153, RFC 6890, DOI 10.17487/RFC6890, April 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7231">[RFC7231]</b></td>
+<td class="top">
+<a>Fielding, R.</a> and <a>J. Reschke</a>, "<a href="https://tools.ietf.org/html/rfc7231">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>", RFC 7231, DOI 10.17487/RFC7231, June 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8126">[RFC8126]</b></td>
+<td class="top">
+<a>Cotton, M.</a>, <a>Leiba, B.</a> and <a>T. Narten</a>, "<a href="https://tools.ietf.org/html/rfc8126">Guidelines for Writing an IANA Considerations Section in RFCs</a>", BCP 26, RFC 8126, DOI 10.17487/RFC8126, June 2017.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Felix Brezo</span> 
+	  <span class="n hidden">
+		<span class="family-name">Brezo</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Telefonica</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:felix.brezofernandez@telefonica.com">felix.brezofernandez@telefonica.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Yaiza Rubio</span> 
+	  <span class="n hidden">
+		<span class="family-name">Rubio</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Telefonica</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:yaiza.rubiovinuela@telefonica.com">yaiza.rubiovinuela@telefonica.com</a></span>
+
+  </address>
+</div>
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Motivation and Previous Work</a>
+</li>
+<li>1.2.   <a href="#rfc.section.1.2">Terminology</a>
+</li>
+</ul><li>2.   <a href="#rfc.section.2">The Specification</a>
+</li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Scope</a>
+</li>
+<li>2.2.   <a href="#rfc.section.2.2">Comments</a>
+</li>
+<li>2.3.   <a href="#rfc.section.2.3">Separate Fields</a>
+</li>
+<li>2.4.   <a href="#rfc.section.2.4">Field Definitions</a>
+</li>
+<ul><li>2.4.1.   <a href="#rfc.section.2.4.1">Contact</a>
+</li>
+<li>2.4.2.   <a href="#rfc.section.2.4.2">Deactivate</a>
+</li>
+<li>2.4.3.   <a href="#rfc.section.2.4.3">Delete</a>
+</li>
+</ul><li>2.5.   <a href="#rfc.section.2.5">Encryption</a>
+</li>
+<ul><li>2.5.1.   <a href="#rfc.section.2.5.1">Policy</a>
+</li>
+<li>2.5.2.   <a href="#rfc.section.2.5.2">Signature</a>
+</li>
+</ul><li>2.6.   <a href="#rfc.section.2.6">Example of an "oblivion.txt" File</a>
+</li>
+</ul><li>3.   <a href="#rfc.section.3">Location of the "oblivion.txt" File</a>
+</li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Web-based services</a>
+</li>
+<li>3.2.   <a href="#rfc.section.3.2">Filesystems</a>
+</li>
+<li>3.3.   <a href="#rfc.section.3.3">Internal hosts</a>
+</li>
+<li>3.4.   <a href="#rfc.section.3.4">Extensibility</a>
+</li>
+</ul><li>4.   <a href="#rfc.section.4">File Format Description and ABNF Grammar</a>
+</li>
+<li>5.   <a href="#rfc.section.5">Security Considerations</a>
+</li>
+<li>6.   <a href="#rfc.section.6">IANA Considerations</a>
+</li>
+<ul><li>6.1.   <a href="#rfc.section.6.1">Well-Known URIs registry</a>
+</li>
+<li>6.2.   <a href="#rfc.section.6.2">Registry for "oblivion.txt" Header Fields</a>
+</li>
+</ul><li>7.   <a href="#rfc.section.7">Contributors</a>
+</li>
+<li>8.   <a href="#rfc.references">Normative References</a>
+</li>
+<li><a href="#rfc.authors">Authors' Addresses</a>
+</li>
+
+
+  </ul>
+
+  
+
+</body>
+</html>
