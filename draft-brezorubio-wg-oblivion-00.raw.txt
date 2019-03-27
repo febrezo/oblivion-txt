@@ -14,13 +14,15 @@ Expires: June 6, 2019                                  December 03, 2018
 
 Abstract
 
-   The current method for opting out from a service are far from being
-   standard.  This fact makes the process of deactivating or deleting an
-   account from a website difficult to find since each platform provides
-   the link in a different way.  This document defines a standard
-   ("oblivion.txt") to help organizations to describe the steps to
-   follow by a user for deactivating or deleting an account from their
-   websites in a secure and standard way.
+   The existing methods for opting out or asking for users data stored
+   by a service are far from being standard.  This fact makes the
+   process of deactivating or deleting an account from a website
+   difficult to find since each platform provides the link in a
+   different way.  This document defines a standard ("oblivion.txt") to
+   help organizations to describe the steps to follow by a user for
+   deactivating or deleting an account from their websites as well as
+   shipping the personal data linked to its users in a secure and
+   standard way.
 
 Status of This Memo
 
@@ -62,13 +64,19 @@ Copyright Notice
    involve creating and managing personal accounts.  Even when the
    creation of these accounts may seem easy to control, generally, the
    deletion and deactivation of an account does not fulfill with any
-   type of standards making each experience of look differently.
+   type of standards making each experience look differently.  Regarding
+   this issue, there has been efforts to list the procedures followed by
+   different platforms to conduct this task.  For example, the project
+   JustDelete.me shows a list of direct links to deletion URLs on
+   different platforms.  However, this process is mainly curated by
+   contributors, which is an approach that does not scale well.
 
-   Regarding this issue, there has been efforts to list the procedures
-   followed by different platforms to conduct this task.  For example,
-   the project JustDelete.me shows a list of direct links to deletion
-   URLs on different platforms.  However, this process is mainly curated
-   by contributors, which is an approach that does not scale well.
+   Similarly, the processes of requesting all the personal data stored
+   by a service or even the management of the consents collected by it
+   usually involve manual interactions withnon-standarized systems.
+   These processes, enforced by law in many countries, are no longer
+   easy to identify by the end user, hindering the exercise of rights
+   inherent to the citizens.
 
    In this document, we define a machine-readable and extensible way of
    communicating how users can interact with a service to deactivate
@@ -170,7 +178,24 @@ Copyright Notice
 
 2.4.  Field Definitions
 
-2.4.1.  Contact
+2.4.1.  Claim
+
+   The "Claim" directive is used for linking to the process of claiming
+   the delivery of all the data stored about a user in a system.  If
+   this directive indicates a web URL, then it SHOULD begin with
+   "https://".
+
+   Claim: https://example.com/claim.html
+
+2.4.2.  Consents
+
+   The "Consents" directive is used for linking to the consent
+   management website.  If this directive indicates a web URL, then it
+   SHOULD begin with "https://".
+
+   Consents: https://example.com/consents.html
+
+2.4.3.  Contact
 
    This directive allows you to provide an address where users CAN ask
    for additional information to delete their accounts.  The value MAY
@@ -195,23 +220,23 @@ Copyright Notice
 
    Contact: https://example.com/oblivion-contact.html
 
-2.4.2.  Deactivate
+2.4.4.  Deactivate
 
    The "Deactivate" directive is used for linking to the deactivation
    procedure.  If this directive indicates a web URL, then it SHOULD
    begin with "https://".
 
-   Hiring: https://example.com/deactivate-account.html
+   Deactivate: https://example.com/deactivate-account.html
 
-2.4.3.  Delete
+2.4.5.  Delete
 
    The "Delete" directive is used for linking to the deletion procedure.
    If this directive indicates a web URL, then it SHOULD begin with
    "https://".
 
-   Hiring: https://example.com/delete-account.html
+   Delete: https://example.com/delete-account.html
 
-2.5.  Encryption
+2.4.6.  Encryption
 
    This directive allows you to point to an encryption key that any user
    or application SHOULD use for encrypted communication.  You MUST NOT
@@ -237,7 +262,7 @@ Copyright Notice
 
    Encryption: openpgp4fpr:5f2de5521c63a801ab59ccb603d49de44b29100f
 
-2.5.1.  Policy
+2.4.7.  Policy
 
    This directive allows you to link to where your privacy policy and/or
    terms and conditions policy is located.  This can help end users to
@@ -249,7 +274,7 @@ Copyright Notice
 
    Policy: https://example.com/privacy-policy.html
 
-2.5.2.  Signature
+2.4.8.  Signature
 
    This directive allows you to specify a full URI (as per [RFC3986]) of
    an external signature file that can be used to check the authenticity
@@ -269,11 +294,19 @@ Copyright Notice
 
    Signature: https://example.com/.well-known/oblivion.txt.sig
 
-2.6.  Example of an "oblivion.txt" File
+2.5.  Example of an "oblivion.txt" File
 
    # Our oblivion address
 
    Contact: mailto:oblivion@example.com
+
+   # Claim your data
+
+   Claim: https://example.com/claim.txt
+
+   # Manage your consents
+
+   Consents: https://example.com/consents.txt
 
    # Our PGP key
 
@@ -379,20 +412,24 @@ Copyright Notice
 
    eol = *WSP [CR] LF
 
-   field = acknowledgments-field / contact-field / deactivate-field /
-   delete-field / encryption-field / policy-field / ext-field
+   field = claim-field / consents-field / contact-field / deactivate-
+   field / delete-field / encryption-field / policy-field / ext-field
 
    fs = ":"
-
-   comment = "#" *(WSP / VCHAR / %xA0-E007F)
-
-   contact-field = "Contact" fs SP (email / uri / phone)
 
    email = <Email address as per [RFC5322]>
 
    phone = "+" *1(DIGIT / "-" / "(" / ")" / SP)
 
    uri = <URI as per [RFC3986]>
+
+   comment = "#" *(WSP / VCHAR / %xA0-E007F)
+
+   claim-field = "Claim" fs SP (email / uri / phone)
+
+   consents-field = "Consents" fs SP (email / uri / phone)
+
+   contact-field = "Contact" fs SP (email / uri / phone)
 
    deactivate-field = "Deactivate" fs SP uri
 
@@ -492,6 +529,26 @@ Copyright Notice
    that a registered field is historical or deprecated if appropriate.
 
    The initial registry contains these values:
+
+   Field Name: Claim
+
+   Description: contact information to use for opt-out related issues
+
+   Multiple Appearances: Yes
+
+   Published in: this document
+
+   Status: current
+
+   Field Name: Consents
+
+   Description: contact information to use for opt-out related issues
+
+   Multiple Appearances: Yes
+
+   Published in: this document
+
+   Status: current
 
    Field Name: Contact
 

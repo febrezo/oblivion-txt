@@ -382,13 +382,15 @@
 <link href="#rfc.section.2.2" rel="Chapter" title="2.2 Comments">
 <link href="#rfc.section.2.3" rel="Chapter" title="2.3 Separate Fields">
 <link href="#rfc.section.2.4" rel="Chapter" title="2.4 Field Definitions">
-<link href="#rfc.section.2.4.1" rel="Chapter" title="2.4.1 Contact">
-<link href="#rfc.section.2.4.2" rel="Chapter" title="2.4.2 Deactivate">
-<link href="#rfc.section.2.4.3" rel="Chapter" title="2.4.3 Delete">
-<link href="#rfc.section.2.5" rel="Chapter" title="2.5 Encryption">
-<link href="#rfc.section.2.5.1" rel="Chapter" title="2.5.1 Policy">
-<link href="#rfc.section.2.5.2" rel="Chapter" title="2.5.2 Signature">
-<link href="#rfc.section.2.6" rel="Chapter" title='2.6 Example of an "oblivion.txt" File'>
+<link href="#rfc.section.2.4.1" rel="Chapter" title="2.4.1 Claim">
+<link href="#rfc.section.2.4.2" rel="Chapter" title="2.4.2 Consents">
+<link href="#rfc.section.2.4.3" rel="Chapter" title="2.4.3 Contact">
+<link href="#rfc.section.2.4.4" rel="Chapter" title="2.4.4 Deactivate">
+<link href="#rfc.section.2.4.5" rel="Chapter" title="2.4.5 Delete">
+<link href="#rfc.section.2.4.6" rel="Chapter" title="2.4.6 Encryption">
+<link href="#rfc.section.2.4.7" rel="Chapter" title="2.4.7 Policy">
+<link href="#rfc.section.2.4.8" rel="Chapter" title="2.4.8 Signature">
+<link href="#rfc.section.2.5" rel="Chapter" title='2.5 Example of an "oblivion.txt" File'>
 <link href="#rfc.section.3" rel="Chapter" title='3 Location of the "oblivion.txt" File'>
 <link href="#rfc.section.3.1" rel="Chapter" title="3.1 Web-based services">
 <link href="#rfc.section.3.2" rel="Chapter" title="3.2 Filesystems">
@@ -410,8 +412,8 @@
   <meta name="dct.creator" content="Brezo, F. and Y. Rubio" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-brezorubio-wg-oblivion-00" />
   <meta name="dct.issued" scheme="ISO8601" content="2018-12-03" />
-  <meta name="dct.abstract" content="The current method for opting out from a service are far from being standard.  This fact makes the process of deactivating or deleting an account from a website difficult to find since each platform provides the link in a different way.  This document defines a standard (&quot;oblivion.txt&quot;) to help organizations to describe the steps to follow by a user for deactivating or deleting an account from their websites in a secure and standard way." />
-  <meta name="description" content="The current method for opting out from a service are far from being standard.  This fact makes the process of deactivating or deleting an account from a website difficult to find since each platform provides the link in a different way.  This document defines a standard (&quot;oblivion.txt&quot;) to help organizations to describe the steps to follow by a user for deactivating or deleting an account from their websites in a secure and standard way." />
+  <meta name="dct.abstract" content="The existing methods for opting out or asking for users data stored by a service are far from being standard.  This fact makes the process of deactivating or deleting an account from a website difficult to find since each platform provides the link in a different way.  This document defines a standard (&quot;oblivion.txt&quot;) to help organizations to describe the steps to follow by a user for deactivating or deleting an account from their websites as well as shipping the personal data linked to its users in a secure and standard way." />
+  <meta name="description" content="The existing methods for opting out or asking for users data stored by a service are far from being standard.  This fact makes the process of deactivating or deleting an account from a website difficult to find since each platform provides the link in a different way.  This document defines a standard (&quot;oblivion.txt&quot;) to help organizations to describe the steps to follow by a user for deactivating or deleting an account from their websites as well as shipping the personal data linked to its users in a secure and standard way." />
 
 </head>
 
@@ -445,7 +447,7 @@
   <span class="filename">draft-brezorubio-wg-oblivion-00</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-<p>The current method for opting out from a service are far from being standard.  This fact makes the process of deactivating or deleting an account from a website difficult to find since each platform provides the link in a different way.  This document defines a standard ("oblivion.txt") to help organizations to describe the steps to follow by a user for deactivating or deleting an account from their websites in a secure and standard way.</p>
+<p>The existing methods for opting out or asking for users data stored by a service are far from being standard.  This fact makes the process of deactivating or deleting an account from a website difficult to find since each platform provides the link in a different way.  This document defines a standard ("oblivion.txt") to help organizations to describe the steps to follow by a user for deactivating or deleting an account from their websites as well as shipping the personal data linked to its users in a secure and standard way.</p>
 <h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
@@ -460,8 +462,8 @@
 <h1 id="rfc.section.1.1">
 <a href="#rfc.section.1.1">1.1.</a> <a href="#motivation-and-previous-work" id="motivation-and-previous-work">Motivation and Previous Work</a>
 </h1>
-<p id="rfc.section.1.1.p.1">Many of the standard interaction of end users with online services involve creating and managing personal accounts.  Even when the creation of these accounts may seem easy to control, generally, the deletion and deactivation of an account does not fulfill with any type of standards making each experience of look differently.</p>
-<p id="rfc.section.1.1.p.2">Regarding this issue, there has been efforts to list the procedures followed by different platforms to conduct this task.  For example, the project JustDelete.me shows a list of direct links to deletion URLs on different platforms.  However, this process is mainly curated by contributors, which is an approach that does not scale well.</p>
+<p id="rfc.section.1.1.p.1">Many of the standard interaction of end users with online services involve creating and managing personal accounts.  Even when the creation of these accounts may seem easy to control, generally, the deletion and deactivation of an account does not fulfill with any type of standards making each experience look differently.  Regarding this issue, there has been efforts to list the procedures followed by different platforms to conduct this task.  For example, the project JustDelete.me shows a list of direct links to deletion URLs on different platforms.  However, this process is mainly curated by contributors, which is an approach that does not scale well.</p>
+<p id="rfc.section.1.1.p.2">Similarly, the processes of requesting all the personal data stored by a service or even the management of the consents collected by it usually involve manual interactions withnon-standarized systems.  These processes, enforced by law in many countries, are no longer easy to identify by the end user, hindering the exercise of rights inherent to the citizens.</p>
 <p id="rfc.section.1.1.p.3">In this document, we define a machine-readable and extensible way of communicating how users can interact with a service to deactivate their accounts or fully deleting them.  This standard is thought to assist companies on providing a transparent and reachable way of giving access to their opt-out procedures so as to give back to the users the right to keep control of their own digital footprint.</p>
 <h1 id="rfc.section.1.2">
 <a href="#rfc.section.1.2">1.2.</a> <a href="#terminology" id="terminology">Terminology</a>
@@ -507,64 +509,78 @@
 <a href="#rfc.section.2.4">2.4.</a> <a href="#field-definitions" id="field-definitions">Field Definitions</a>
 </h1>
 <h1 id="rfc.section.2.4.1">
-<a href="#rfc.section.2.4.1">2.4.1.</a> <a href="#contact" id="contact">Contact</a>
+<a href="#rfc.section.2.4.1">2.4.1.</a> <a href="#claim" id="claim">Claim</a>
 </h1>
-<p id="rfc.section.2.4.1.p.1">This directive allows you to provide an address where users CAN ask for additional information to delete their accounts.  The value MAY be an email address, a phone number and/or a contact page with more information.  The "Contact:" directive MUST always be present in an "oblivion.txt" file.  If this directive indicates a web URL, then it MUST be begin with "https://".  Contact email addresses SHOULD use the conventions defined in section 4 of <a href="#RFC2142" class="xref">[RFC2142]</a>, but there is no requirement for this directive to be an email address.</p>
-<p id="rfc.section.2.4.1.p.2">The value MUST follow the general syntax described in <a href="#RFC3986" class="xref">[RFC3986]</a>.  This means that "mailto" and "tel" URI schemes MUST be used when specifying email addresses and telephone numbers.</p>
-<p id="rfc.section.2.4.1.p.3">The precedence SHOULD be in listed order.  The first field is the preferred method of contact.  In the example below, the e-mail address is the preferred method of contact.</p>
-<p id="rfc.section.2.4.1.p.4">Contact: mailto:oblivion@example.com</p>
-<p id="rfc.section.2.4.1.p.5">Contact: tel:+1-201-555-0123</p>
-<p id="rfc.section.2.4.1.p.6">Contact: https://example.com/oblivion-contact.html</p>
+<p id="rfc.section.2.4.1.p.1">The "Claim" directive is used for linking to the process of claiming the delivery of all the data stored about a user in a system.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
+<p id="rfc.section.2.4.1.p.2">Claim: https://example.com/claim.html</p>
 <h1 id="rfc.section.2.4.2">
-<a href="#rfc.section.2.4.2">2.4.2.</a> <a href="#deactivate" id="deactivate">Deactivate</a>
+<a href="#rfc.section.2.4.2">2.4.2.</a> <a href="#consents" id="consents">Consents</a>
 </h1>
-<p id="rfc.section.2.4.2.p.1">The "Deactivate" directive is used for linking to the deactivation procedure.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
-<p id="rfc.section.2.4.2.p.2">Hiring: https://example.com/deactivate-account.html</p>
+<p id="rfc.section.2.4.2.p.1">The "Consents" directive is used for linking to the consent management website.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
+<p id="rfc.section.2.4.2.p.2">Consents: https://example.com/consents.html</p>
 <h1 id="rfc.section.2.4.3">
-<a href="#rfc.section.2.4.3">2.4.3.</a> <a href="#delete" id="delete">Delete</a>
+<a href="#rfc.section.2.4.3">2.4.3.</a> <a href="#contact" id="contact">Contact</a>
 </h1>
-<p id="rfc.section.2.4.3.p.1">The "Delete" directive is used for linking to the deletion procedure.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
-<p id="rfc.section.2.4.3.p.2">Hiring: https://example.com/delete-account.html</p>
+<p id="rfc.section.2.4.3.p.1">This directive allows you to provide an address where users CAN ask for additional information to delete their accounts.  The value MAY be an email address, a phone number and/or a contact page with more information.  The "Contact:" directive MUST always be present in an "oblivion.txt" file.  If this directive indicates a web URL, then it MUST be begin with "https://".  Contact email addresses SHOULD use the conventions defined in section 4 of <a href="#RFC2142" class="xref">[RFC2142]</a>, but there is no requirement for this directive to be an email address.</p>
+<p id="rfc.section.2.4.3.p.2">The value MUST follow the general syntax described in <a href="#RFC3986" class="xref">[RFC3986]</a>.  This means that "mailto" and "tel" URI schemes MUST be used when specifying email addresses and telephone numbers.</p>
+<p id="rfc.section.2.4.3.p.3">The precedence SHOULD be in listed order.  The first field is the preferred method of contact.  In the example below, the e-mail address is the preferred method of contact.</p>
+<p id="rfc.section.2.4.3.p.4">Contact: mailto:oblivion@example.com</p>
+<p id="rfc.section.2.4.3.p.5">Contact: tel:+1-201-555-0123</p>
+<p id="rfc.section.2.4.3.p.6">Contact: https://example.com/oblivion-contact.html</p>
+<h1 id="rfc.section.2.4.4">
+<a href="#rfc.section.2.4.4">2.4.4.</a> <a href="#deactivate" id="deactivate">Deactivate</a>
+</h1>
+<p id="rfc.section.2.4.4.p.1">The "Deactivate" directive is used for linking to the deactivation procedure.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
+<p id="rfc.section.2.4.4.p.2">Deactivate: https://example.com/deactivate-account.html</p>
+<h1 id="rfc.section.2.4.5">
+<a href="#rfc.section.2.4.5">2.4.5.</a> <a href="#delete" id="delete">Delete</a>
+</h1>
+<p id="rfc.section.2.4.5.p.1">The "Delete" directive is used for linking to the deletion procedure.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
+<p id="rfc.section.2.4.5.p.2">Delete: https://example.com/delete-account.html</p>
+<h1 id="rfc.section.2.4.6">
+<a href="#rfc.section.2.4.6">2.4.6.</a> <a href="#encryption" id="encryption">Encryption</a>
+</h1>
+<p id="rfc.section.2.4.6.p.1">This directive allows you to point to an encryption key that any user or application SHOULD use for encrypted communication.  You MUST NOT directly add your key to the field.  Instead the value of this field MUST be a URI pointing to a location where the key can be retrieved from.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
+<p id="rfc.section.2.4.6.p.2">When it comes to verifying the authenticity of the key, it is always the user's responsibility to make sure the key being specified is indeed one they trust.  Users MUST NOT assume that this key is used to generate the signature file referenced in Section 2.4.6.</p>
+<p id="rfc.section.2.4.6.p.3">Example of a PGP key available from a web server:</p>
+<p id="rfc.section.2.4.6.p.4">Encryption: https://example.com/pgp-key.txt</p>
+<p id="rfc.section.2.4.6.p.5">Example of a PGP key available from an OPENPGPKEY DNS:</p>
+<p id="rfc.section.2.4.6.p.6">Encryption: dns:5d2d37ab76d47d36._pgp.example.com?type=OPENPGPKEY</p>
+<p id="rfc.section.2.4.6.p.7">Example of a PGP key being referenced by its fingerprint:</p>
+<p id="rfc.section.2.4.6.p.8">Encryption: openpgp4fpr:5f2de5521c63a801ab59ccb603d49de44b29100f</p>
+<h1 id="rfc.section.2.4.7">
+<a href="#rfc.section.2.4.7">2.4.7.</a> <a href="#policy" id="policy">Policy</a>
+</h1>
+<p id="rfc.section.2.4.7.p.1">This directive allows you to link to where your privacy policy and/or  terms and conditions policy is located.  This can help end users to understand what are the conditions to opt-out in the service.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
+<p id="rfc.section.2.4.7.p.2">Example:</p>
+<p id="rfc.section.2.4.7.p.3">Policy: https://example.com/privacy-policy.html</p>
+<h1 id="rfc.section.2.4.8">
+<a href="#rfc.section.2.4.8">2.4.8.</a> <a href="#signature" id="signature">Signature</a>
+</h1>
+<p id="rfc.section.2.4.8.p.1">This directive allows you to specify a full URI (as per <a href="#RFC3986" class="xref">[RFC3986]</a>) of an external signature file that can be used to check the authenticity of a "oblivion.txt" file.  External signature files SHOULD be named "oblivion.txt.sig" and SHOULD be placed under the Well-Known path ("/.well-known/oblivion.txt.sig").  If this directive indicates a web URL, then it MUST be begin with "https://".  This directive MUST NOT appear more than once.</p>
+<p id="rfc.section.2.4.8.p.2">It is RECOMMENDED to implementors that this directive is always used.</p>
+<p id="rfc.section.2.4.8.p.3">When it comes to verifying the authenticity of the file, it is always the user's responsibility to make sure the key being specified is indeed one they trust.</p>
+<p id="rfc.section.2.4.8.p.4">Here is an example of an external signature file.</p>
+<p id="rfc.section.2.4.8.p.5">Signature: https://example.com/.well-known/oblivion.txt.sig</p>
 <h1 id="rfc.section.2.5">
-<a href="#rfc.section.2.5">2.5.</a> <a href="#encryption" id="encryption">Encryption</a>
+<a href="#rfc.section.2.5">2.5.</a> <a href="#example-of-an-obliviontxt-file" id="example-of-an-obliviontxt-file">Example of an "oblivion.txt" File</a>
 </h1>
-<p id="rfc.section.2.5.p.1">This directive allows you to point to an encryption key that any user or application SHOULD use for encrypted communication.  You MUST NOT directly add your key to the field.  Instead the value of this field MUST be a URI pointing to a location where the key can be retrieved from.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
-<p id="rfc.section.2.5.p.2">When it comes to verifying the authenticity of the key, it is always the user's responsibility to make sure the key being specified is indeed one they trust.  Users MUST NOT assume that this key is used to generate the signature file referenced in Section 2.4.6.</p>
-<p id="rfc.section.2.5.p.3">Example of a PGP key available from a web server:</p>
-<p id="rfc.section.2.5.p.4">Encryption: https://example.com/pgp-key.txt</p>
-<p id="rfc.section.2.5.p.5">Example of a PGP key available from an OPENPGPKEY DNS:</p>
-<p id="rfc.section.2.5.p.6">Encryption: dns:5d2d37ab76d47d36._pgp.example.com?type=OPENPGPKEY</p>
-<p id="rfc.section.2.5.p.7">Example of a PGP key being referenced by its fingerprint:</p>
-<p id="rfc.section.2.5.p.8">Encryption: openpgp4fpr:5f2de5521c63a801ab59ccb603d49de44b29100f</p>
-<h1 id="rfc.section.2.5.1">
-<a href="#rfc.section.2.5.1">2.5.1.</a> <a href="#policy" id="policy">Policy</a>
-</h1>
-<p id="rfc.section.2.5.1.p.1">This directive allows you to link to where your privacy policy and/or  terms and conditions policy is located.  This can help end users to understand what are the conditions to opt-out in the service.  If this directive indicates a web URL, then it SHOULD begin with "https://".</p>
-<p id="rfc.section.2.5.1.p.2">Example:</p>
-<p id="rfc.section.2.5.1.p.3">Policy: https://example.com/privacy-policy.html</p>
-<h1 id="rfc.section.2.5.2">
-<a href="#rfc.section.2.5.2">2.5.2.</a> <a href="#signature" id="signature">Signature</a>
-</h1>
-<p id="rfc.section.2.5.2.p.1">This directive allows you to specify a full URI (as per <a href="#RFC3986" class="xref">[RFC3986]</a>) of an external signature file that can be used to check the authenticity of a "oblivion.txt" file.  External signature files SHOULD be named "oblivion.txt.sig" and SHOULD be placed under the Well-Known path ("/.well-known/oblivion.txt.sig").  If this directive indicates a web URL, then it MUST be begin with "https://".  This directive MUST NOT appear more than once.</p>
-<p id="rfc.section.2.5.2.p.2">It is RECOMMENDED to implementors that this directive is always used.</p>
-<p id="rfc.section.2.5.2.p.3">When it comes to verifying the authenticity of the file, it is always the user's responsibility to make sure the key being specified is indeed one they trust.</p>
-<p id="rfc.section.2.5.2.p.4">Here is an example of an external signature file.</p>
-<p id="rfc.section.2.5.2.p.5">Signature: https://example.com/.well-known/oblivion.txt.sig</p>
-<h1 id="rfc.section.2.6">
-<a href="#rfc.section.2.6">2.6.</a> <a href="#example-of-an-obliviontxt-file" id="example-of-an-obliviontxt-file">Example of an "oblivion.txt" File</a>
-</h1>
-<p id="rfc.section.2.6.p.1"># Our oblivion address</p>
-<p id="rfc.section.2.6.p.2">Contact: mailto:oblivion@example.com</p>
-<p id="rfc.section.2.6.p.3"># Our PGP key</p>
-<p id="rfc.section.2.6.p.4">Encryption: https://example.com/pgp-key.txt</p>
-<p id="rfc.section.2.6.p.5"># Our privacy policy</p>
-<p id="rfc.section.2.6.p.6">Policy: https://example.com/privacy-policy.html</p>
-<p id="rfc.section.2.6.p.7"># Deactivate from our service</p>
-<p id="rfc.section.2.6.p.8">Deactivate: https://example.com/deactivate-account.html</p>
-<p id="rfc.section.2.6.p.9"># Delete your account from our service</p>
-<p id="rfc.section.2.6.p.10">Delete: https://example.com/delete-account.html</p>
-<p id="rfc.section.2.6.p.11"># Verify this oblivion.txt file</p>
-<p id="rfc.section.2.6.p.12">Signature: https://example.com/.well-known/oblivion.txt.sig</p>
+<p id="rfc.section.2.5.p.1"># Our oblivion address</p>
+<p id="rfc.section.2.5.p.2">Contact: mailto:oblivion@example.com</p>
+<p id="rfc.section.2.5.p.3"># Claim your data</p>
+<p id="rfc.section.2.5.p.4">Claim: https://example.com/claim.txt</p>
+<p id="rfc.section.2.5.p.5"># Manage your consents</p>
+<p id="rfc.section.2.5.p.6">Consents: https://example.com/consents.txt</p>
+<p id="rfc.section.2.5.p.7"># Our PGP key</p>
+<p id="rfc.section.2.5.p.8">Encryption: https://example.com/pgp-key.txt</p>
+<p id="rfc.section.2.5.p.9"># Our privacy policy</p>
+<p id="rfc.section.2.5.p.10">Policy: https://example.com/privacy-policy.html</p>
+<p id="rfc.section.2.5.p.11"># Deactivate from our service</p>
+<p id="rfc.section.2.5.p.12">Deactivate: https://example.com/deactivate-account.html</p>
+<p id="rfc.section.2.5.p.13"># Delete your account from our service</p>
+<p id="rfc.section.2.5.p.14">Delete: https://example.com/delete-account.html</p>
+<p id="rfc.section.2.5.p.15"># Verify this oblivion.txt file</p>
+<p id="rfc.section.2.5.p.16">Signature: https://example.com/.well-known/oblivion.txt.sig</p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#location-of-the-obliviontxt-file" id="location-of-the-obliviontxt-file">Location of the "oblivion.txt" File</a>
 </h1>
@@ -628,22 +644,24 @@
 <p id="rfc.section.4.p.3">body                   = *line (permission-field eol) (signature-field eol) *line</p>
 <p id="rfc.section.4.p.4">line                   = *1(field / comment) eol</p>
 <p id="rfc.section.4.p.5">eol                    = *WSP [CR] LF</p>
-<p id="rfc.section.4.p.6">field                  = acknowledgments-field / contact-field / deactivate-field / delete-field / encryption-field / policy-field / ext-field</p>
+<p id="rfc.section.4.p.6">field                  = claim-field / consents-field / contact-field / deactivate-field / delete-field / encryption-field / policy-field / ext-field</p>
 <p id="rfc.section.4.p.7">fs                     = ":"</p>
-<p id="rfc.section.4.p.8">comment                = "#" *(WSP / VCHAR / %xA0-E007F)</p>
-<p id="rfc.section.4.p.9">contact-field          = "Contact" fs SP (email / uri / phone)</p>
-<p id="rfc.section.4.p.10">email                  = &lt;Email address as per <a href="#RFC5322" class="xref">[RFC5322]</a>&gt;</p>
-<p id="rfc.section.4.p.11">phone                  = "+" *1(DIGIT / "-" / "(" / ")" / SP)</p>
-<p id="rfc.section.4.p.12">uri                    = &lt;URI as per <a href="#RFC3986" class="xref">[RFC3986]</a>&gt;</p>
-<p id="rfc.section.4.p.13">deactivate-field       = "Deactivate" fs SP uri</p>
-<p id="rfc.section.4.p.14">delete-field           = "Delete" fs SP uri</p>
-<p id="rfc.section.4.p.15">encryption-field       = "Encryption" fs SP uri</p>
-<p id="rfc.section.4.p.16">policy-field           = "Policy" fs SP uri</p>
-<p id="rfc.section.4.p.17">signature-field        = "Signature" fs SP uri</p>
-<p id="rfc.section.4.p.18">ext-field              = field-name fs SP unstructured</p>
-<p id="rfc.section.4.p.19">field-name             = &lt;as per section 3.6.8 of <a href="#RFC5322" class="xref">[RFC5322]</a>&gt;</p>
-<p id="rfc.section.4.p.20">unstructured           = &lt;as per section 3.2.5 of <a href="#RFC5322" class="xref">[RFC5322]</a>&gt;</p>
-<p id="rfc.section.4.p.21">"ext-field" refers to extension fields, which are discussed in Section 3.4 of this document</p>
+<p id="rfc.section.4.p.8">email                  = &lt;Email address as per <a href="#RFC5322" class="xref">[RFC5322]</a>&gt;</p>
+<p id="rfc.section.4.p.9">phone                  = "+" *1(DIGIT / "-" / "(" / ")" / SP)</p>
+<p id="rfc.section.4.p.10">uri                    = &lt;URI as per <a href="#RFC3986" class="xref">[RFC3986]</a>&gt;</p>
+<p id="rfc.section.4.p.11">comment                = "#" *(WSP / VCHAR / %xA0-E007F)</p>
+<p id="rfc.section.4.p.12">claim-field            = "Claim" fs SP (email / uri / phone)</p>
+<p id="rfc.section.4.p.13">consents-field         = "Consents" fs SP (email / uri / phone)</p>
+<p id="rfc.section.4.p.14">contact-field          = "Contact" fs SP (email / uri / phone)</p>
+<p id="rfc.section.4.p.15">deactivate-field       = "Deactivate" fs SP uri</p>
+<p id="rfc.section.4.p.16">delete-field           = "Delete" fs SP uri</p>
+<p id="rfc.section.4.p.17">encryption-field       = "Encryption" fs SP uri</p>
+<p id="rfc.section.4.p.18">policy-field           = "Policy" fs SP uri</p>
+<p id="rfc.section.4.p.19">signature-field        = "Signature" fs SP uri</p>
+<p id="rfc.section.4.p.20">ext-field              = field-name fs SP unstructured</p>
+<p id="rfc.section.4.p.21">field-name             = &lt;as per section 3.6.8 of <a href="#RFC5322" class="xref">[RFC5322]</a>&gt;</p>
+<p id="rfc.section.4.p.22">unstructured           = &lt;as per section 3.2.5 of <a href="#RFC5322" class="xref">[RFC5322]</a>&gt;</p>
+<p id="rfc.section.4.p.23">"ext-field" refers to extension fields, which are discussed in Section 3.4 of this document</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
 </h1>
@@ -686,36 +704,46 @@
 </ol>
 <p id="rfc.section.6.2.p.5">An update may make a notation on an existing registration indicating that a registered field is historical or deprecated if appropriate.</p>
 <p id="rfc.section.6.2.p.6">The initial registry contains these values:</p>
-<p id="rfc.section.6.2.p.7">Field Name: Contact</p>
+<p id="rfc.section.6.2.p.7">Field Name: Claim</p>
 <p id="rfc.section.6.2.p.8">Description: contact information to use for opt-out related issues</p>
 <p id="rfc.section.6.2.p.9">Multiple Appearances: Yes</p>
 <p id="rfc.section.6.2.p.10">Published in: this document</p>
 <p id="rfc.section.6.2.p.11">Status: current</p>
-<p id="rfc.section.6.2.p.12">Field Name: Deactivate</p>
-<p id="rfc.section.6.2.p.13">Description: link to the deactivation</p>
-<p id="rfc.section.6.2.p.14">Multiple Appearances: No</p>
+<p id="rfc.section.6.2.p.12">Field Name: Consents</p>
+<p id="rfc.section.6.2.p.13">Description: contact information to use for opt-out related issues</p>
+<p id="rfc.section.6.2.p.14">Multiple Appearances: Yes</p>
 <p id="rfc.section.6.2.p.15">Published in: this document</p>
 <p id="rfc.section.6.2.p.16">Status: current</p>
-<p id="rfc.section.6.2.p.17">Field Name: Delete</p>
-<p id="rfc.section.6.2.p.18">Description: link to the deletion page</p>
-<p id="rfc.section.6.2.p.19">Multiple Appearances: No</p>
+<p id="rfc.section.6.2.p.17">Field Name: Contact</p>
+<p id="rfc.section.6.2.p.18">Description: contact information to use for opt-out related issues</p>
+<p id="rfc.section.6.2.p.19">Multiple Appearances: Yes</p>
 <p id="rfc.section.6.2.p.20">Published in: this document</p>
 <p id="rfc.section.6.2.p.21">Status: current</p>
-<p id="rfc.section.6.2.p.22">Field Name: Encryption</p>
-<p id="rfc.section.6.2.p.23">Description: link to a key to be used for encrypted communications</p>
-<p id="rfc.section.6.2.p.24">Multiple Appearances: Yes</p>
+<p id="rfc.section.6.2.p.22">Field Name: Deactivate</p>
+<p id="rfc.section.6.2.p.23">Description: link to the deactivation</p>
+<p id="rfc.section.6.2.p.24">Multiple Appearances: No</p>
 <p id="rfc.section.6.2.p.25">Published in: this document</p>
 <p id="rfc.section.6.2.p.26">Status: current</p>
-<p id="rfc.section.6.2.p.27">Field Name: Policy</p>
-<p id="rfc.section.6.2.p.28">Description: link to privacy policy page</p>
-<p id="rfc.section.6.2.p.29">Multiple Appearances: Yes</p>
+<p id="rfc.section.6.2.p.27">Field Name: Delete</p>
+<p id="rfc.section.6.2.p.28">Description: link to the deletion page</p>
+<p id="rfc.section.6.2.p.29">Multiple Appearances: No</p>
 <p id="rfc.section.6.2.p.30">Published in: this document</p>
 <p id="rfc.section.6.2.p.31">Status: current</p>
-<p id="rfc.section.6.2.p.32">Field Name: Signature</p>
-<p id="rfc.section.6.2.p.33">Description: signature used to verify the authenticity of the file</p>
-<p id="rfc.section.6.2.p.34">Multiple Appearances: No</p>
+<p id="rfc.section.6.2.p.32">Field Name: Encryption</p>
+<p id="rfc.section.6.2.p.33">Description: link to a key to be used for encrypted communications</p>
+<p id="rfc.section.6.2.p.34">Multiple Appearances: Yes</p>
 <p id="rfc.section.6.2.p.35">Published in: this document</p>
 <p id="rfc.section.6.2.p.36">Status: current</p>
+<p id="rfc.section.6.2.p.37">Field Name: Policy</p>
+<p id="rfc.section.6.2.p.38">Description: link to privacy policy page</p>
+<p id="rfc.section.6.2.p.39">Multiple Appearances: Yes</p>
+<p id="rfc.section.6.2.p.40">Published in: this document</p>
+<p id="rfc.section.6.2.p.41">Status: current</p>
+<p id="rfc.section.6.2.p.42">Field Name: Signature</p>
+<p id="rfc.section.6.2.p.43">Description: signature used to verify the authenticity of the file</p>
+<p id="rfc.section.6.2.p.44">Multiple Appearances: No</p>
+<p id="rfc.section.6.2.p.45">Published in: this document</p>
+<p id="rfc.section.6.2.p.46">Status: current</p>
 <h1 id="rfc.section.7">
 <a href="#rfc.section.7">7.</a> <a href="#contributors" id="contributors">Contributors</a>
 </h1>
@@ -859,19 +887,23 @@
 </li>
 <li>2.4.   <a href="#rfc.section.2.4">Field Definitions</a>
 </li>
-<ul><li>2.4.1.   <a href="#rfc.section.2.4.1">Contact</a>
+<ul><li>2.4.1.   <a href="#rfc.section.2.4.1">Claim</a>
 </li>
-<li>2.4.2.   <a href="#rfc.section.2.4.2">Deactivate</a>
+<li>2.4.2.   <a href="#rfc.section.2.4.2">Consents</a>
 </li>
-<li>2.4.3.   <a href="#rfc.section.2.4.3">Delete</a>
+<li>2.4.3.   <a href="#rfc.section.2.4.3">Contact</a>
 </li>
-</ul><li>2.5.   <a href="#rfc.section.2.5">Encryption</a>
+<li>2.4.4.   <a href="#rfc.section.2.4.4">Deactivate</a>
 </li>
-<ul><li>2.5.1.   <a href="#rfc.section.2.5.1">Policy</a>
+<li>2.4.5.   <a href="#rfc.section.2.4.5">Delete</a>
 </li>
-<li>2.5.2.   <a href="#rfc.section.2.5.2">Signature</a>
+<li>2.4.6.   <a href="#rfc.section.2.4.6">Encryption</a>
 </li>
-</ul><li>2.6.   <a href="#rfc.section.2.6">Example of an "oblivion.txt" File</a>
+<li>2.4.7.   <a href="#rfc.section.2.4.7">Policy</a>
+</li>
+<li>2.4.8.   <a href="#rfc.section.2.4.8">Signature</a>
+</li>
+</ul><li>2.5.   <a href="#rfc.section.2.5">Example of an "oblivion.txt" File</a>
 </li>
 </ul><li>3.   <a href="#rfc.section.3">Location of the "oblivion.txt" File</a>
 </li>

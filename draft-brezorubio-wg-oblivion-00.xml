@@ -38,13 +38,9 @@
 
     <date year="2018" month="December" day="03"/>
     <abstract>
-<t>The current method for opting out from a service are far from being standard.
-This fact makes the process of deactivating or deleting an account from a
-website difficult to find since each platform provides the link in a different
-way.
-This document defines a standard ("oblivion.txt") to help organizations to
-describe the steps to follow by a user for deactivating or deleting an account
-from their websites in a secure and standard way.</t>
+<t>The existing methods for opting out or asking for users data stored by a service are far from being standard.
+This fact makes the process of deactivating or deleting an account from a website difficult to find since each platform provides the link in a different way.
+This document defines a standard ("oblivion.txt") to help organizations to describe the steps to follow by a user for deactivating or deleting an account from their websites as well as shipping the personal data linked to its users in a secure and standard way.</t>
     </abstract>
   </front>
   <middle>
@@ -55,11 +51,13 @@ from their websites in a secure and standard way.</t>
 <section anchor="motivation-and-previous-work" title="Motivation and Previous Work">
 
 <t>Many of the standard interaction of end users with online services involve creating and managing personal accounts.
-Even when the creation of these accounts may seem easy to control, generally, the deletion and deactivation of an account does not fulfill with any type of standards making each experience of look differently.</t>
-
-<t>Regarding this issue, there has been efforts to list the procedures followed by different platforms to conduct this task.
+Even when the creation of these accounts may seem easy to control, generally, the deletion and deactivation of an account does not fulfill with any type of standards making each experience look differently.
+Regarding this issue, there has been efforts to list the procedures followed by different platforms to conduct this task.
 For example, the project JustDelete.me shows a list of direct links to deletion URLs on different platforms.
 However, this process is mainly curated by contributors, which is an approach that does not scale well.</t>
+
+<t>Similarly, the processes of requesting all the personal data stored by a service or even the management of the consents collected by it usually involve manual interactions withnon-standarized systems.
+These processes, enforced by law in many countries, are no longer easy to identify by the end user, hindering the exercise of rights inherent to the citizens.</t>
 
 <t>In this document, we define a machine-readable and extensible way of communicating how users can interact with a service to deactivate their accounts or fully deleting them.
 This standard is thought to assist companies on providing a transparent and reachable way of giving access to their opt-out procedures so as to give back to the users the right to keep control of their own digital footprint.</t>
@@ -84,8 +82,7 @@ For web-based services, the instructions MUST be accessible via the Hypertext Tr
 For file systems and version control repositories an ".oblivion.txt" file SHOULD be placed in the root directory of a particular file system or source code project.</t>
 
 <t>This text file contains multiple directives with different values.
-The "directive" is the first part of a field all the way up to the
-colon ("Contact:").
+The "directive" is the first part of a field all the way up to the colon ("Contact:").
 Directives MUST be case-insensitive.
 The "value" comes after the directive ("https://example.com/oblivion").
 A "field" MUST alway consist of a directive and a value ("Contact: https://example.com/oblivion").
@@ -118,8 +115,7 @@ However, an "oblivion.txt" file that is found in a file system or version contro
 
 <section anchor="comments" title="Comments">
 
-<t>Any line beginning with the "#" (%x30) symbol MUST be interpreted as
-a comment.</t>
+<t>Any line beginning with the "#" (%x30) symbol MUST be interpreted as a comment.</t>
 
 <t>Example:</t>
 
@@ -139,92 +135,118 @@ Every line MUST end either with a carriage return and line feed characters (CRLF
 
 <section anchor="field-definitions" title="Field Definitions">
 
-<section anchor="contact" title="Contact">
+  <section anchor="claim" title="Claim">
 
-<t>This directive allows you to provide an address where users CAN ask for additional information to delete their accounts.
-The value MAY be an email address, a phone number and/or a contact page with more information.
-The "Contact:" directive MUST always be present in an "oblivion.txt" file.
-If this directive indicates a web URL, then it MUST be begin with "https://".
-Contact email addresses SHOULD use the conventions defined in section 4 of <xref target="RFC2142"/>, but there is no requirement for this directive to be an email address.</t>
+  <t>The "Claim" directive is used for linking to the process of claiming the delivery of all the data stored about a user in a system.
+  If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
 
-<t>The value MUST follow the general syntax described in <xref target="RFC3986"/>.
-This means that "mailto" and "tel" URI schemes MUST be used when specifying email addresses and telephone numbers.</t>
+  <t>Claim: https://example.com/claim.html</t>
 
-<t>The precedence SHOULD be in listed order.
-The first field is the preferred method of contact.
-In the example below, the e-mail address is the preferred method of contact.</t>
+  </section>
 
-<t>Contact: mailto:oblivion@example.com</t>
-<t>Contact: tel:+1-201-555-0123</t>
-<t>Contact: https://example.com/oblivion-contact.html</t>
+  <section anchor="consents" title="Consents">
 
-</section>
-<section anchor="deactivate" title="Deactivate">
+  <t>The "Consents" directive is used for linking to the consent management website.
+  If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
 
-<t>The "Deactivate" directive is used for linking to the deactivation procedure.
-If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
+  <t>Consents: https://example.com/consents.html</t>
 
-<t>Hiring: https://example.com/deactivate-account.html</t>
+  </section>
 
-</section>
-<section anchor="delete" title="Delete">
+  <section anchor="contact" title="Contact">
 
-<t>The "Delete" directive is used for linking to the deletion procedure.
-If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
+  <t>This directive allows you to provide an address where users CAN ask for additional information to delete their accounts.
+  The value MAY be an email address, a phone number and/or a contact page with more information.
+  The "Contact:" directive MUST always be present in an "oblivion.txt" file.
+  If this directive indicates a web URL, then it MUST be begin with "https://".
+  Contact email addresses SHOULD use the conventions defined in section 4 of <xref target="RFC2142"/>, but there is no requirement for this directive to be an email address.</t>
 
-<t>Hiring: https://example.com/delete-account.html</t>
+  <t>The value MUST follow the general syntax described in <xref target="RFC3986"/>.
+  This means that "mailto" and "tel" URI schemes MUST be used when specifying email addresses and telephone numbers.</t>
 
-</section>
-</section>
-<section anchor="encryption" title="Encryption">
+  <t>The precedence SHOULD be in listed order.
+  The first field is the preferred method of contact.
+  In the example below, the e-mail address is the preferred method of contact.</t>
 
-<t>This directive allows you to point to an encryption key that any user or application SHOULD use for encrypted communication.
-You MUST NOT directly add your key to the field.
-Instead the value of this field MUST be a URI pointing to a location where the key can be retrieved from.
-If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
+  <t>Contact: mailto:oblivion@example.com</t>
+  <t>Contact: tel:+1-201-555-0123</t>
+  <t>Contact: https://example.com/oblivion-contact.html</t>
 
-<t>When it comes to verifying the authenticity of the key, it is always the user's responsibility to make sure the key being specified is indeed one they trust.
-Users MUST NOT assume that this key is used to generate the signature file referenced in Section 2.4.6.</t>
+  </section>
 
-<t>Example of a PGP key available from a web server:</t>
-<t>Encryption: https://example.com/pgp-key.txt</t>
-<t>Example of a PGP key available from an OPENPGPKEY DNS:</t>
-<t>Encryption: dns:5d2d37ab76d47d36._pgp.example.com?type=OPENPGPKEY</t>
-<t>Example of a PGP key being referenced by its fingerprint:</t>
-<t>Encryption: openpgp4fpr:5f2de5521c63a801ab59ccb603d49de44b29100f</t>
+  <section anchor="deactivate" title="Deactivate">
 
-<section anchor="policy" title="Policy">
+  <t>The "Deactivate" directive is used for linking to the deactivation procedure.
+  If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
 
-<t>This directive allows you to link to where your privacy policy and/or  terms and conditions policy is located.
-This can help end users to understand what are the conditions to opt-out in the service.
-If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
+  <t>Deactivate: https://example.com/deactivate-account.html</t>
 
-<t>Example:</t>
-<t>Policy: https://example.com/privacy-policy.html</t>
+  </section>
 
-</section>
+  <section anchor="delete" title="Delete">
 
-<section anchor="signature" title="Signature">
+  <t>The "Delete" directive is used for linking to the deletion procedure.
+  If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
 
-<t>This directive allows you to specify a full URI (as per <xref target="RFC3986"/>) of an external signature file that can be used to check the authenticity of a "oblivion.txt" file.
-External signature files SHOULD be named "oblivion.txt.sig" and SHOULD be placed under the Well-Known path ("/.well-known/oblivion.txt.sig").
-If this directive indicates a web URL, then it MUST be begin with "https://".
-This directive MUST NOT appear more than once.</t>
+  <t>Delete: https://example.com/delete-account.html</t>
 
-<t>It is RECOMMENDED to implementors that this directive is always used.</t>
+  </section>
 
-<t>When it comes to verifying the authenticity of the file, it is always the user's responsibility to make sure the key being specified is indeed one they trust.</t>
+  <section anchor="encryption" title="Encryption">
 
-<t>Here is an example of an external signature file.</t>
+  <t>This directive allows you to point to an encryption key that any user or application SHOULD use for encrypted communication.
+  You MUST NOT directly add your key to the field.
+  Instead the value of this field MUST be a URI pointing to a location where the key can be retrieved from.
+  If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
 
-<t>Signature: https://example.com/.well-known/oblivion.txt.sig</t>
-</section>
+  <t>When it comes to verifying the authenticity of the key, it is always the user's responsibility to make sure the key being specified is indeed one they trust.
+  Users MUST NOT assume that this key is used to generate the signature file referenced in Section 2.4.6.</t>
+
+  <t>Example of a PGP key available from a web server:</t>
+  <t>Encryption: https://example.com/pgp-key.txt</t>
+  <t>Example of a PGP key available from an OPENPGPKEY DNS:</t>
+  <t>Encryption: dns:5d2d37ab76d47d36._pgp.example.com?type=OPENPGPKEY</t>
+  <t>Example of a PGP key being referenced by its fingerprint:</t>
+  <t>Encryption: openpgp4fpr:5f2de5521c63a801ab59ccb603d49de44b29100f</t>
+
+  </section>
+
+  <section anchor="policy" title="Policy">
+
+  <t>This directive allows you to link to where your privacy policy and/or  terms and conditions policy is located.
+  This can help end users to understand what are the conditions to opt-out in the service.
+  If this directive indicates a web URL, then it SHOULD begin with "https://".</t>
+
+  <t>Example:</t>
+  <t>Policy: https://example.com/privacy-policy.html</t>
+
+  </section>
+
+  <section anchor="signature" title="Signature">
+
+  <t>This directive allows you to specify a full URI (as per <xref target="RFC3986"/>) of an external signature file that can be used to check the authenticity of a "oblivion.txt" file.
+  External signature files SHOULD be named "oblivion.txt.sig" and SHOULD be placed under the Well-Known path ("/.well-known/oblivion.txt.sig").
+  If this directive indicates a web URL, then it MUST be begin with "https://".
+  This directive MUST NOT appear more than once.</t>
+
+  <t>It is RECOMMENDED to implementors that this directive is always used.</t>
+
+  <t>When it comes to verifying the authenticity of the file, it is always the user's responsibility to make sure the key being specified is indeed one they trust.</t>
+
+  <t>Here is an example of an external signature file.</t>
+
+  <t>Signature: https://example.com/.well-known/oblivion.txt.sig</t>
+  </section>
 </section>
 
 <section anchor="example-of-an-obliviontxt-file" title='Example of an "oblivion.txt" File'>
 
 <t># Our oblivion address</t>
 <t>Contact: mailto:oblivion@example.com</t>
+<t># Claim your data</t>
+<t>Claim: https://example.com/claim.txt</t>
+<t># Manage your consents</t>
+<t>Consents: https://example.com/consents.txt</t>
 <t># Our PGP key</t>
 <t>Encryption: https://example.com/pgp-key.txt</t>
 <t># Our privacy policy</t>
@@ -316,7 +338,8 @@ To encourage extensibility and interoperability, implementors MUST ignore any fi
 
 <t>eol                    = *WSP [CR] LF</t>
 
-<t>field                  = acknowledgments-field /
+<t>field                  = claim-field /
+                         consents-field /
                          contact-field /
                          deactivate-field /
                          delete-field /
@@ -326,15 +349,19 @@ To encourage extensibility and interoperability, implementors MUST ignore any fi
 
 <t>fs                     = ":"</t>
 
-<t>comment                = "#" *(WSP / VCHAR / %xA0-E007F)</t>
-
-<t>contact-field          = "Contact" fs SP (email / uri / phone)</t>
-
 <t>email                  = &lt;Email address as per <xref target="RFC5322"/>&gt;</t>
 
 <t>phone                  = "+" *1(DIGIT / "-" / "(" / ")" / SP)</t>
 
 <t>uri                    = &lt;URI as per <xref target="RFC3986"/>&gt;</t>
+
+<t>comment                = "#" *(WSP / VCHAR / %xA0-E007F)</t>
+
+<t>claim-field            = "Claim" fs SP (email / uri / phone)</t>
+
+<t>consents-field         = "Consents" fs SP (email / uri / phone)</t>
+
+<t>contact-field          = "Contact" fs SP (email / uri / phone)</t>
 
 <t>deactivate-field       = "Deactivate" fs SP uri</t>
 
@@ -411,6 +438,19 @@ Any new field thus registered is considered optional by this specification unles
 <t>An update may make a notation on an existing registration indicating that a registered field is historical or deprecated if appropriate.</t>
 
 <t>The initial registry contains these values:</t>
+
+
+<t>Field Name: Claim</t>
+<t>Description: contact information to use for opt-out related issues</t>
+<t>Multiple Appearances: Yes</t>
+<t>Published in: this document</t>
+<t>Status: current</t>
+
+<t>Field Name: Consents</t>
+<t>Description: contact information to use for opt-out related issues</t>
+<t>Multiple Appearances: Yes</t>
+<t>Published in: this document</t>
+<t>Status: current</t>
 
 <t>Field Name: Contact</t>
 <t>Description: contact information to use for opt-out related issues</t>
